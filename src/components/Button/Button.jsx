@@ -11,10 +11,11 @@ const useStyles = makeStyles({
 });
 
 const Button = (props) => {
+  const { text } = props;
   const classes = useStyles();
   return (
     <ButtonBase {...props} className={classes.root} variant="contained">
-      Add todo
+      {text}
     </ButtonBase>
   );
 };

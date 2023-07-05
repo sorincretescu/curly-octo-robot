@@ -3,12 +3,14 @@ import Card from "../../components/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import Modal from "../../components/Modal";
 
 const DummyToDos = [
   {
     priority: 1,
     creation_date: "2021-01-01",
     description: "This is a description",
+    subtasks: ["Subtask 1", "Subtask 2", "Subtask 3", "Subtask 4", "Subtask 5"],
   },
   {
     priority: 2,
@@ -19,6 +21,13 @@ const DummyToDos = [
     priority: 3,
     creation_date: "2021-01-03",
     description: "This is a description",
+    subtasks: [
+      "Subtask 2.1",
+      "Subtask 2",
+      "Subtask 3",
+      "Subtask 4",
+      "Subtask 5",
+    ],
   },
   {
     priority: 4,
@@ -34,6 +43,7 @@ const useStyles = makeStyles({
   },
   header: {
     display: "flex",
+    padding: "8px",
   },
   cardsContainer: {
     maxHeight: "70vh",
@@ -46,31 +56,47 @@ const Todo = () => {
 
   const [todos, setTodos] = useState(DummyToDos);
   const [todoText, setTodoText] = useState("");
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [currentTodo, setCurrentTodo] = useState(null);
 
   const handleAddTodo = () => {
-    console.log("test", todoText);
     if (!todoText?.length) return;
     const newTodo = {
       priority: 1,
       creation_date: new Date().toISOString().split("T")[0],
       description: todoText,
     };
+    setTodoText("");
     setTodos([...todos, newTodo]);
   };
 
   const handleEditTodo = (id) => {
-    console.log("Edit todo", id);
+    setCurrentTodo(id);
+    setOpenEditModal(true);
   };
 
   const handleDeleteTodo = (id) => {
     setTodos(todos.filter((todo, index) => index !== id));
   };
 
+  const handleCloseEditModal = () => {
+    setOpenEditModal(false);
+  };
+
+  const handleSave = (description, priority) => {
+    const newTodos = [...todos];
+    newTodos[currentTodo].description = description;
+    newTodos[currentTodo].priority = priority;
+    setTodos(newTodos);
+    setOpenEditModal(false);
+    setCurrentTodo(null);
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Input onChange={(e) => setTodoText(e.target.value)} />
-        <Button onClick={() => handleAddTodo()} />
+        <Input value={todoText} onChange={(e) => setTodoText(e.target.value)} />
+        <Button onClick={() => handleAddTodo()} text="Add Todo" />
       </div>
       <div className={classes.cardsContainer}>
         {todos.map((todo, index) => (
@@ -82,11 +108,16 @@ const Todo = () => {
               handleEdit: handleEditTodo,
               handleDelete: handleDeleteTodo,
             }}
-            // handleEdit={(id) => handleEditTodo(id)}
-            // handleDelete={(id) => handleDeleteTodo(id)}
           />
         ))}
       </div>
+      <Modal
+        todoDescription={todos[currentTodo]?.description ?? ""}
+        defaultPriority={todos[currentTodo]?.priority ?? 1}
+        open={openEditModal}
+        handleClose={handleCloseEditModal}
+        handleSave={handleSave}
+      />
     </div>
   );
 };
