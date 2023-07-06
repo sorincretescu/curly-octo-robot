@@ -60,6 +60,7 @@ const useStyles = makeStyles({
   formControl: {
     minWidth: 150,
     height: '80px',
+    alignContent:'center',
 
   },
   selectEmpty: {
@@ -77,7 +78,7 @@ const Todo = () => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
   const [selectedPriority, setSelectedPriority] = useState("");
-  const [sortedTodos, setSortedTodos] = useState([]);
+  const [filteredTodos, setFilteredTodos] = useState([]);
 
   const handleAddTodo = () => {
     if (!todoText?.length) return;
@@ -105,9 +106,9 @@ const Todo = () => {
 
   const handlePrioritySort = (event) => {
     const selectedPriority = event.target.value;
-    const filteredTodos = todos.filter((todo) =>
+    const filteredPrioTodos = todos.filter((todo) =>
       todo.priority === selectedPriority);
-    setSortedTodos(filteredTodos);
+    setFilteredTodos(filteredPrioTodos);
     setSelectedPriority(selectedPriority);
   }
 
@@ -115,7 +116,7 @@ const Todo = () => {
 
   const handleSortReset = () => {
     setTodos(DummyToDos);
-    setSortedTodos([]);
+    setFilteredTodos([]);
     setSelectedPriority("");
   }
 
@@ -136,7 +137,7 @@ const Todo = () => {
       </div>
       <div className={classes.selectDropdown}>
         <FormControl className={classes.formControl}>
-          <InputLabel>Priority</InputLabel>
+          {/* <InputLabel>Priority</InputLabel> */}
           <Select
             className={classes.selectEmpty}
             label='Priority'
@@ -173,8 +174,8 @@ const Todo = () => {
             ))
           ) : ("")
 
-        ) : sortedTodos.length > 0 ? (
-          sortedTodos.map((todo, index) => (
+        ) : filteredTodos.length > 0 ? (
+          filteredTodos.map((todo, index) => (
             <Card
               key={index}
               item={{
