@@ -24,11 +24,18 @@ const useStyles = makeStyles({
 });
 
 const Modal = (props) => {
-  const { open, handleClose, todoDescription, handleSave, defaultPriority } =
-    props;
+  const {
+    open,
+    handleClose,
+    todoDescription,
+    handleSave,
+    defaultPriority,
+    handleAddNewSubtask,
+  } = props;
 
   const [todoText, setTodoText] = useState(todoDescription);
   const [priority, setPriority] = useState(defaultPriority);
+  const [newSubtaskText, setNewSubtaskText] = useState("");
 
   const classes = useStyles();
 
@@ -71,11 +78,21 @@ const Modal = (props) => {
           <span>{priority}</span>
           <AddCircleIcon onClick={handleIncreasePriority} />
         </div>
-        <Input label="Add subtask" />
+        <Input
+          value={newSubtaskText}
+          label="Add subtask"
+          onChange={(e) => setNewSubtaskText(e.target.value)}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} text="Cancel" />
-        <Button text="Add subtask" />
+        <Button
+          onClick={() => {
+            handleAddNewSubtask(newSubtaskText);
+            setNewSubtaskText("");
+          }}
+          text="Add subtask"
+        />
         <Button onClick={() => handleSave(todoText, priority)} text="Seidit" />
       </DialogActions>
     </Dialog>

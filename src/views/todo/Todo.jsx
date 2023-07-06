@@ -92,10 +92,27 @@ const Todo = () => {
     setCurrentTodo(null);
   };
 
+  const handleAddNewSubtask = (subtask) => {
+    const newSubtask = [...todos];
+    if (!newSubtask[currentTodo].subtasks) {
+      newSubtask[currentTodo].subtasks = [];
+      newSubtask[currentTodo].subtasks.push(subtask);
+    } else {
+      newSubtask[currentTodo].subtasks.push(subtask);
+    }
+    setTodos(newSubtask);
+    setOpenEditModal(false);
+    setCurrentTodo(null);
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Input value={todoText} onChange={(e) => setTodoText(e.target.value)} />
+        <Input
+          value={todoText}
+          label="Todo description"
+          onChange={(e) => setTodoText(e.target.value)}
+        />
         <Button onClick={() => handleAddTodo()} text="Add Todo" />
       </div>
       <div className={classes.cardsContainer}>
@@ -117,6 +134,7 @@ const Todo = () => {
         open={openEditModal}
         handleClose={handleCloseEditModal}
         handleSave={handleSave}
+        handleAddNewSubtask={handleAddNewSubtask}
       />
     </div>
   );
