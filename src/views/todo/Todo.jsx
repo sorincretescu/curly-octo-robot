@@ -4,6 +4,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 const DummyToDos = [
   {
@@ -48,6 +53,19 @@ const useStyles = makeStyles({
   cardsContainer: {
     maxHeight: "70vh",
     overflow: "auto",
+  },
+  selectDropdown: {
+    margin: 16,
+    display:'flex',
+    
+  },
+  formControl: {
+    minWidth: 120,
+    height: "56px",
+  },
+  selectEmpty: {
+    marginTop: 2,
+    height: "56px",
   },
 });
 
@@ -97,6 +115,21 @@ const Todo = () => {
       <div className={classes.header}>
         <Input value={todoText} onChange={(e) => setTodoText(e.target.value)} />
         <Button onClick={() => handleAddTodo()} text="Add Todo" />
+      </div>
+      <div className={classes.selectDropdown}>
+        <FormControl className={classes.formControl}>
+          <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+          // value={age}
+          // onChange={handleChange}
+          >
+            <MenuItem ></MenuItem>
+          </Select>
+        </FormControl>
+        <Button text="Reset" />
+
       </div>
       <div className={classes.cardsContainer}>
         {todos.map((todo, index) => (
