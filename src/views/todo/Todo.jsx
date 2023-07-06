@@ -56,13 +56,16 @@ const useStyles = makeStyles({
   selectDropdown: {
     margin: 16,
     display: 'flex',
-
   },
   formControl: {
-    minWidth: 120,
+    minWidth: 150,
+    height: '80px',
+
   },
   selectEmpty: {
     marginTop: 4,
+    backgroundColor:'white',
+    height:'90px',
   },
 });
 
@@ -133,9 +136,10 @@ const Todo = () => {
       </div>
       <div className={classes.selectDropdown}>
         <FormControl className={classes.formControl}>
-          <InputLabel >Priority</InputLabel>
+          <InputLabel>Priority</InputLabel>
           <Select
             className={classes.selectEmpty}
+            label='Priority'
             value={selectedPriority}
             onChange={handlePrioritySort}
           > {
@@ -148,9 +152,11 @@ const Todo = () => {
             }
           </Select>
         </FormControl>
-        <Button onClick={handleSortReset} text="Reset" />
-
-      </div>
+      
+      <Button 
+        onClick={handleSortReset} 
+        text="Reset" />
+      </div> 
       <div className={classes.cardsContainer}>
         {selectedPriority === "" ? (
           todos.length > 0 ? (
