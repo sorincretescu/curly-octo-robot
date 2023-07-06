@@ -93,16 +93,14 @@ const Todo = () => {
   };
 
   const handleAddNewSubtask = (subtask) => {
-    const newSubtask = [...todos];
-    if (!newSubtask[currentTodo].subtasks) {
-      newSubtask[currentTodo].subtasks = [];
-      newSubtask[currentTodo].subtasks.push(subtask);
+    const newTodos = [...todos];
+    if (!newTodos[currentTodo]?.subtasks?.length) {
+      newTodos[currentTodo].subtasks = [];
+      newTodos[currentTodo].subtasks.push(subtask);
     } else {
-      newSubtask[currentTodo].subtasks.push(subtask);
+      newTodos[currentTodo].subtasks.push(subtask);
     }
-    setTodos(newSubtask);
-    setOpenEditModal(false);
-    setCurrentTodo(null);
+    setTodos(newTodos);
   };
 
   return (
