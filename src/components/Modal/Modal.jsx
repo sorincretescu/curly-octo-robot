@@ -75,7 +75,7 @@ const Modal = (props) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} text="Cancel" />
-        <Button onClick={handleClose} text="Add subtask" />
+        <Button text="Add subtask" />
         <Button onClick={() => handleSave(todoText, priority)} text="Seidit" />
       </DialogActions>
     </Dialog>
