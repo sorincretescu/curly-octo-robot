@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "../Button";
 import Input from "../Input";
@@ -63,6 +62,7 @@ const Modal = (props) => {
       <DialogContent>
         <Input
           value={todoText}
+          label="Todo description"
           onChange={(e) => setTodoText(e.target.value)}
           focused
         />
@@ -71,9 +71,11 @@ const Modal = (props) => {
           <span>{priority}</span>
           <AddCircleIcon onClick={handleIncreasePriority} />
         </div>
+        <Input label="Add subtask" />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} text="Cancel" />
+        <Button onClick={handleClose} text="Add subtask" />
         <Button onClick={() => handleSave(todoText, priority)} text="Seidit" />
       </DialogActions>
     </Dialog>
