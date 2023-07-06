@@ -6,7 +6,6 @@ import Button from "../../components/Button";
 import Modal from "../../components/Modal";
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
@@ -56,16 +55,14 @@ const useStyles = makeStyles({
   },
   selectDropdown: {
     margin: 16,
-    display:'flex',
-    
+    display: 'flex',
+
   },
   formControl: {
     minWidth: 120,
-    height: "56px",
   },
   selectEmpty: {
-    marginTop: 2,
-    height: "56px",
+    marginTop: 4,
   },
 });
 
@@ -76,6 +73,8 @@ const Todo = () => {
   const [todoText, setTodoText] = useState("");
   const [openEditModal, setOpenEditModal] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
+  const [selectedPriority, setSelectedPriority] = useState("");
+  const [sortedTodos, setSortedTodos] = useState([]);
 
   const handleAddTodo = () => {
     if (!todoText?.length) return;
@@ -101,6 +100,22 @@ const Todo = () => {
     setOpenEditModal(false);
   };
 
+  const handlePrioritySort = (event) => {
+    const selectedPriority = event.target.value;
+    const filteredTodos = todos.filter((todo) =>
+      todo.priority === selectedPriority);
+    setSortedTodos(filteredTodos);
+    setSelectedPriority(selectedPriority);
+  }
+
+  const uniquePriorities = [...new Set(todos.map((todo) => todo.priority))];
+
+  const handleSortReset = () => {
+    setTodos(DummyToDos);
+    setSortedTodos([]);
+    setSelectedPriority("");
+  }
+
   const handleSave = (description, priority) => {
     const newTodos = [...todos];
     newTodos[currentTodo].description = description;
@@ -118,31 +133,54 @@ const Todo = () => {
       </div>
       <div className={classes.selectDropdown}>
         <FormControl className={classes.formControl}>
-          <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+          <InputLabel >Priority</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-          // value={age}
-          // onChange={handleChange}
-          >
-            <MenuItem ></MenuItem>
+            className={classes.selectEmpty}
+            value={selectedPriority}
+            onChange={handlePrioritySort}
+          > {
+              todos.length > 0 &&
+              uniquePriorities.map((priority) => (
+                <MenuItem key={priority} value={priority} >
+                  {priority}
+                </MenuItem>
+              ))
+            }
           </Select>
         </FormControl>
-        <Button text="Reset" />
+        <Button onClick={handleSortReset} text="Reset" />
 
       </div>
       <div className={classes.cardsContainer}>
-        {todos.map((todo, index) => (
-          <Card
-            key={index}
-            item={{
-              ...todo,
-              id: index,
-              handleEdit: handleEditTodo,
-              handleDelete: handleDeleteTodo,
-            }}
-          />
-        ))}
+        {selectedPriority === "" ? (
+          todos.length > 0 ? (
+            todos.map((todo, index) => (
+              <Card
+                key={index}
+                item={{
+                  ...todo,
+                  id: index,
+                  handleEdit: handleEditTodo,
+                  handleDelete: handleDeleteTodo,
+                }}
+              />
+            ))
+          ) : ("")
+
+        ) : sortedTodos.length > 0 ? (
+          sortedTodos.map((todo, index) => (
+            <Card
+              key={index}
+              item={{
+                ...todo,
+                id: index,
+                handleEdit: handleEditTodo,
+                handleDelete: handleDeleteTodo,
+              }}
+            />
+          ))
+        ) : ("")}
+
       </div>
       <Modal
         todoDescription={todos[currentTodo]?.description ?? ""}
