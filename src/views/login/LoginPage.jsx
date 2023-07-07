@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   },
 });
 
-function LoginPage() {
+function LoginPage({ setAuthenticated }) {
   const classes = useStyles();
 
   const [username, setUsername] = useState("");
@@ -29,6 +29,7 @@ function LoginPage() {
 
   const handleLogin = () => {
     if (username === "test" && pass === "test") {
+      setAuthenticated(true);
       navigate("/todo");
     } else {
       if (!pass.length) setErrorPass("Enter password.");
