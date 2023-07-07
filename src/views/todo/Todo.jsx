@@ -83,10 +83,11 @@ const Todo = () => {
     setOpenEditModal(false);
   };
 
-  const handleSave = (description, priority) => {
+  const handleSave = (description, priority, editedSubtasks) => {
     const newTodos = [...todos];
     newTodos[currentTodo].description = description;
     newTodos[currentTodo].priority = priority;
+    newTodos[currentTodo].subtasks = editedSubtasks;
     setTodos(newTodos);
     setOpenEditModal(false);
     setCurrentTodo(null);

@@ -63,6 +63,12 @@ const Modal = (props) => {
     );
   };
 
+  const handleSaveClick = () => {
+    const updatedSubtasks = subtaskText.filter((subtask) => subtask !== "");
+    handleSave(todoText, priority, updatedSubtasks);
+
+  }
+
   return (
     <Dialog
       open={open}
@@ -91,7 +97,7 @@ const Modal = (props) => {
         {subtasks?.map((subtask, index) => (
           <Input
             key={index}
-            value={subtask}
+            value={subtaskText[index]}
             label="Subtasks"
             onChange={(e) => handleSubtasksChange(index, e.target.value)}
           />
@@ -112,7 +118,7 @@ const Modal = (props) => {
           }}
           text="Add subtask"
         />
-        <Button onClick={() => handleSave(todoText, priority)} text="Seidit" />
+        <Button onClick={handleSaveClick} text="Seidit" />
       </DialogActions>
     </Dialog>
   );
