@@ -1,20 +1,29 @@
 import React from "react";
-import { TextField } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
+import Input from "../Input/Input";
 
-const SearchBar = () => {
+const useStyles = makeStyles ({
+    searchBar: {
+        marginLeft:16,
+    }
+});
 
-    const useStyles = makeStyles ({
-        searchBar: {
-            marginLeft:16,
-        }
-    });
-      
+const SearchBar = ({handleSearch}) => {
+
+    const handleChange = (event) => {
+        const searchTerm = event.target.value;
+        handleSearch(searchTerm)
+    }
+
     const classes = useStyles();
       
         return (
+        
           <div className={classes.searchBar} >
-              <TextField id="outlined-search" label="Search field" type="search" variant="outlined" />
+              <Input 
+              label="Search"
+              onChange={handleChange}/>
+            
           </div>
         );
       }
