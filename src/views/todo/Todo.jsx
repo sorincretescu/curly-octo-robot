@@ -137,7 +137,6 @@ const Todo = () => {
       </div>
       <div className={classes.selectDropdown}>
         <FormControl className={classes.formControl}>
-          {/* <InputLabel>Priority</InputLabel> */}
           <Select
             className={classes.selectEmpty}
             label='Priority'
@@ -172,7 +171,7 @@ const Todo = () => {
                 }}
               />
             ))
-          ) : ("")
+          ) : (null)
 
         ) : filteredTodos.length > 0 ? (
           filteredTodos.map((todo, index) => (
@@ -186,7 +185,7 @@ const Todo = () => {
               }}
             />
           ))
-        ) : ("")}
+        ) : (null)}
 
       </div>
       <Modal
