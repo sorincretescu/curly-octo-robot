@@ -20,7 +20,6 @@ const Input = (props) => {
     <TextField
       className={classes.textField}
       id="outlined-basic"
-      label="Todo description"
       variant="outlined"
       {...props}
     />
