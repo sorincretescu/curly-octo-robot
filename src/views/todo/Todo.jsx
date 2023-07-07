@@ -129,6 +129,7 @@ const Todo = () => {
       <Modal
         todoDescription={todos[currentTodo]?.description ?? ""}
         defaultPriority={todos[currentTodo]?.priority ?? 1}
+        subtasks={todos[currentTodo]?.subtasks ?? []}
         open={openEditModal}
         handleClose={handleCloseEditModal}
         handleSave={handleSave}
