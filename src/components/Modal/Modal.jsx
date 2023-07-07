@@ -45,7 +45,7 @@ const Modal = (props) => {
     setTodoText(todoDescription);
     setPriority(defaultPriority);
     setSubtaskText(subtasks);
-  }, [todoDescription, defaultPriority]);
+  }, [todoDescription, defaultPriority, subtasks]);
 
   const handleIncreasePriority = () => {
     if (priority === 10) return;
@@ -91,7 +91,7 @@ const Modal = (props) => {
         {subtasks?.map((subtask, index) => (
           <Input
             key={index}
-            value={subtask}
+            value={subtaskText[index]}
             label="Subtasks"
             onChange={(e) => handleSubtasksChange(index, e.target.value)}
           />
