@@ -58,6 +58,7 @@ const Todo = () => {
   const [todoText, setTodoText] = useState("");
   const [openEditModal, setOpenEditModal] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
+  const [expandedSubtasks, setExpandedSubtasks] = useState([]);
 
   const handleAddTodo = () => {
     if (!todoText?.length) return;
@@ -91,6 +92,12 @@ const Todo = () => {
     setTodos(newTodos);
     setOpenEditModal(false);
     setCurrentTodo(null);
+    setExpandedSubtasks((prevExpandedSubtasks) => {
+      if(!prevExpandedSubtasks.includes(currentTodo)) {
+        return [...prevExpandedSubtasks, currentTodo];
+      }
+      return prevExpandedSubtasks;
+    })
   };
 
   const handleAddNewSubtask = (subtask) => {
@@ -123,6 +130,7 @@ const Todo = () => {
               id: index,
               handleEdit: handleEditTodo,
               handleDelete: handleDeleteTodo,
+              expanded: expandedSubtasks.includes(index),
             }}
           />
         ))}

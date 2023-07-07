@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CardMUI from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -68,8 +68,20 @@ const Card = (props) => {
     handleDelete,
     handleEdit,
     subtasks,
+    expanded
   } = props.item;
   const classes = useStyles();
+
+  const [isExpanded, setIsExpanded] = useState(expanded);
+
+  const handleExpand = () => {
+    setIsExpanded((prevExpended) => !prevExpended);
+  };
+
+  useEffect(() => {
+    setIsExpanded(expanded);
+  }, [expanded]);
+
   return (
     <>
       <CardMUI className={classes.root}>
@@ -88,7 +100,7 @@ const Card = (props) => {
             <Typography className={classes.pos} color="textSecondary">
               {description ?? "No description"}
             </Typography>
-            <Accordion>
+            <Accordion expanded={isExpanded} onChange={handleExpand}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
