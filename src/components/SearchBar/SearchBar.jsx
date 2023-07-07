@@ -2,11 +2,7 @@ import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Input from "../Input/Input";
 
-const useStyles = makeStyles ({
-    searchBar: {
-        marginLeft:16,
-    }
-});
+
 
 const SearchBar = ({handleSearch}) => {
 
@@ -14,12 +10,10 @@ const SearchBar = ({handleSearch}) => {
         const searchTerm = event.target.value;
         handleSearch(searchTerm)
     }
-
-    const classes = useStyles();
       
         return (
         
-          <div className={classes.searchBar} >
+          <div>
               <Input 
               label="Search"
               onChange={handleChange}/>

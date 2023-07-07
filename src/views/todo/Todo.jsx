@@ -20,6 +20,9 @@ const DummyToDos = [
     priority: 2,
     creation_date: "2021-01-02",
     description: "This is a description",
+    subtasks: [
+      "puppy",
+    ]
   },
   {
     priority: 3,
@@ -53,22 +56,22 @@ const useStyles = makeStyles({
     maxHeight: "70vh",
     overflow: "auto",
   },
-  selectDropdown: {
-    margin: 16,
-    display: 'flex',
-  },
   formControl: {
     minWidth: 150,
     height: '80px',
   },
   selectEmpty: {
-    marginTop: 4,
+    marginTop:10,
     backgroundColor: 'white',
-    height: '90px',
+    height: '54px',
+    borderRadius:4,
   },
   searchAndFilter: {
     display: 'flex',
-    marginLeft: '16px',
+    marginLeft: '10px',
+  },
+
+  selectDropdown: {
   }
 });
 
