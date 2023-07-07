@@ -31,10 +31,12 @@ const Modal = (props) => {
     handleSave,
     defaultPriority,
     handleAddNewSubtask,
+    subtasks,
   } = props;
 
   const [todoText, setTodoText] = useState(todoDescription);
   const [priority, setPriority] = useState(defaultPriority);
+  const [subtaskText, setSubtaskText] = useState(subtasks);
   const [newSubtaskText, setNewSubtaskText] = useState("");
 
   const classes = useStyles();
@@ -42,6 +44,7 @@ const Modal = (props) => {
   useEffect(() => {
     setTodoText(todoDescription);
     setPriority(defaultPriority);
+    setSubtaskText(subtasks);
   }, [todoDescription, defaultPriority]);
 
   const handleIncreasePriority = () => {
@@ -52,6 +55,12 @@ const Modal = (props) => {
   const handleDecreasePriority = () => {
     if (priority === 1) return;
     setPriority(priority - 1);
+  };
+
+  const handleSubtasksChange = (index, value) => {
+    setSubtaskText(
+      subtaskText.map((subtask, i) => (i === index ? value : subtask))
+    );
   };
 
   return (
@@ -78,6 +87,16 @@ const Modal = (props) => {
           <span>{priority}</span>
           <AddCircleIcon onClick={handleIncreasePriority} />
         </div>
+
+        {subtasks?.map((subtask, index) => (
+          <Input
+            key={index}
+            value={subtask}
+            label="Subtasks"
+            onChange={(e) => handleSubtasksChange(index, e.target.value)}
+          />
+        ))}
+
         <Input
           value={newSubtaskText}
           label="Add subtask"
