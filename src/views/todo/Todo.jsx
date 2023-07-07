@@ -83,7 +83,7 @@ const Todo = () => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
   const [selectedPriority, setSelectedPriority] = useState("");
-  const [searchedTodoListTodos, setsearchedTodoListTodos] = useState([]);
+  const [filteredTodos, setFilteredTodos] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchedTodo, setSearchedTodo] = useState([]);
 
@@ -113,10 +113,10 @@ const Todo = () => {
 
   const handlePrioritySort = (event) => {
     const selectedPriority = event.target.value;
-    const searchedTodoListPrioTodos = todos.filter((todo) =>
+    const filteredPrioTodos = todos.filter((todo) =>
       todo.priority === selectedPriority
     );
-    setsearchedTodoListTodos(searchedTodoListPrioTodos);
+    setFilteredTodos(filteredPrioTodos);
     setSelectedPriority(selectedPriority);
   };
 
@@ -124,7 +124,7 @@ const Todo = () => {
 
   const handleSortReset = () => {
     setTodos(DummyToDos);
-    setsearchedTodoListTodos([]);
+    setFilteredTodos([]);
     setSelectedPriority("");
   };
 
@@ -212,8 +212,8 @@ const Todo = () => {
           ) : (
             <p>No matching tasks found.</p>
           )
-        ) : searchedTodoListTodos.length > 0 ? (
-          searchedTodoListTodos.map((todo, index) => (
+        ) : filteredTodos.length > 0 ? (
+          filteredTodos.map((todo, index) => (
             <Card
               key={index}
               item={{
