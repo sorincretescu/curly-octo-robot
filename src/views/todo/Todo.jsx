@@ -4,8 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 const DummyToDos = [
   {
@@ -53,21 +51,13 @@ const useStyles = makeStyles({
   },
 });
 
-const Todo = ({ authenticated }) => {
+const Todo = () => {
   const classes = useStyles();
 
   const [todos, setTodos] = useState(DummyToDos);
   const [todoText, setTodoText] = useState("");
   const [openEditModal, setOpenEditModal] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const checkAuthentication = () => {
-      if (!authenticated) return navigate("/");
-    };
-    checkAuthentication();
-  }, [authenticated, navigate]);
 
   const handleAddTodo = () => {
     if (!todoText?.length) return;
