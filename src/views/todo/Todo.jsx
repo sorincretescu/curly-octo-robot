@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
-import { MenuItem, FormControl, Select } from '@material-ui/core';
+import { MenuItem, FormControl, Select } from "@material-ui/core";
 import SearchBar from "../../components/SearchBar";
 
 const DummyToDos = [
@@ -18,9 +18,7 @@ const DummyToDos = [
     priority: 2,
     creation_date: "2021-01-02",
     description: "This is a description",
-    subtasks: [
-      "puppy",
-    ]
+    subtasks: ["puppy"],
   },
   {
     priority: 3,
@@ -56,17 +54,17 @@ const useStyles = makeStyles({
   },
   formControl: {
     minWidth: 150,
-    height: '80px',
+    height: "80px",
   },
   selectEmpty: {
     marginTop: 10,
-    backgroundColor: 'white',
-    height: '54px',
+    backgroundColor: "white",
+    height: "54px",
     borderRadius: 4,
   },
   searchAndFilter: {
-    display: 'flex',
-    marginLeft: '10px',
+    display: "flex",
+    marginLeft: "10px",
   },
 });
 
@@ -108,8 +106,8 @@ const Todo = () => {
 
   const handlePrioritySort = (event) => {
     const selectedPriority = event.target.value;
-    const filteredPrioTodos = todos.filter((todo) =>
-      todo.priority === selectedPriority
+    const filteredPrioTodos = todos.filter(
+      (todo) => todo.priority === selectedPriority
     );
     setTodos(filteredPrioTodos);
     setSelectedPriority(selectedPriority);
@@ -121,14 +119,14 @@ const Todo = () => {
     setTodos(clonedTodos);
     setSelectedPriority("");
     setSearchTerm("");
-    console.log("searched term:", searchTerm);
-    console.log("selected prio:", selectedPriority);
   };
 
   const handleSearch = (term) => {
     setSearchTerm(term);
     const searchedTodoList = clonedTodos.filter((todo) => {
-      const searchInTasks = todo.description.toLowerCase().includes(term.toLowerCase());
+      const searchInTasks = todo.description
+        .toLowerCase()
+        .includes(term.toLowerCase());
       const searchInSubtasks = todo.subtasks?.some((subtask) =>
         subtask.toLowerCase().includes(term.toLowerCase())
       );
@@ -154,7 +152,10 @@ const Todo = () => {
       </div>
       <div className={classes.searchAndFilter}>
         <div>
-          <SearchBar value={searchTerm} onChange={(e) => handleSearch(e.target.value)} />
+          <SearchBar
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
+          />
         </div>
         <div className={classes.selectDropdown}>
           <FormControl className={classes.formControl} label="Priority">
