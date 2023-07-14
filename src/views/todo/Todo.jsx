@@ -4,9 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import { MenuItem, FormControl, Select } from '@material-ui/core';
 import SearchBar from "../../components/SearchBar";
 
 const DummyToDos = [
@@ -61,31 +59,27 @@ const useStyles = makeStyles({
     height: '80px',
   },
   selectEmpty: {
-    marginTop:10,
+    marginTop: 10,
     backgroundColor: 'white',
     height: '54px',
-    borderRadius:4,
+    borderRadius: 4,
   },
   searchAndFilter: {
     display: 'flex',
     marginLeft: '10px',
   },
-
-  selectDropdown: {
-  }
 });
 
 const Todo = () => {
   const classes = useStyles();
 
   const [todos, setTodos] = useState(DummyToDos);
+  const [clonedTodos, setClonedTodos] = useState(todos);
   const [todoText, setTodoText] = useState("");
   const [openEditModal, setOpenEditModal] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
   const [selectedPriority, setSelectedPriority] = useState("");
-  const [filteredTodos, setFilteredTodos] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchedTodo, setSearchedTodo] = useState([]);
 
   const handleAddTodo = () => {
     if (!todoText?.length) return;
@@ -96,6 +90,7 @@ const Todo = () => {
     };
     setTodoText("");
     setTodos([...todos, newTodo]);
+    setClonedTodos([...todos, newTodo]);
   };
 
   const handleEditTodo = (id) => {
@@ -116,16 +111,17 @@ const Todo = () => {
     const filteredPrioTodos = todos.filter((todo) =>
       todo.priority === selectedPriority
     );
-    setFilteredTodos(filteredPrioTodos);
+    setTodos(filteredPrioTodos);
     setSelectedPriority(selectedPriority);
   };
 
   const uniquePriorities = [...new Set(todos.map((todo) => todo.priority))];
 
   const handleSortReset = () => {
-    setTodos(DummyToDos);
-    setFilteredTodos([]);
+    setTodos(clonedTodos);
     setSelectedPriority("");
+    setSearchTerm("");
+    console.log("searched term:", searchTerm);
   };
 
   const handleSearch = (term) => {
@@ -137,7 +133,7 @@ const Todo = () => {
       );
       return searchInTasks || searchInSubtasks;
     });
-    setSearchedTodo(searchedTodoList);
+    setTodos(searchedTodoList);
   };
 
   const handleSave = (description, priority) => {
@@ -158,7 +154,7 @@ const Todo = () => {
       </div>
       <div className={classes.searchAndFilter}>
         <div>
-          <SearchBar handleSearch={handleSearch} />
+          <SearchBar handleSearch={handleSearch}/>
         </div>
         <div className={classes.selectDropdown}>
           <FormControl className={classes.formControl} label="Priority">
@@ -180,53 +176,17 @@ const Todo = () => {
         </div>
       </div>
       <div className={classes.cardsContainer}>
-        {selectedPriority === "" ? (
-          searchTerm === "" ? (
-            todos.length > 0 ? (
-              todos.map((todo, index) => (
-                <Card
-                  key={index}
-                  item={{
-                    ...todo,
-                    id: index,
-                    handleEdit: handleEditTodo,
-                    handleDelete: handleDeleteTodo,
-                  }}
-                />
-              ))
-            ) : (
-              <p>No tasks found.</p>
-            )
-          ) : searchedTodo.length > 0 ? (
-            searchedTodo.map((todo, index) => (
-              <Card
-                key={index}
-                item={{
-                  ...todo,
-                  id: index,
-                  handleEdit: handleEditTodo,
-                  handleDelete: handleDeleteTodo,
-                }}
-              />
-            ))
-          ) : (
-            <p>No matching tasks found.</p>
-          )
-        ) : filteredTodos.length > 0 ? (
-          filteredTodos.map((todo, index) => (
-            <Card
-              key={index}
-              item={{
-                ...todo,
-                id: index,
-                handleEdit: handleEditTodo,
-                handleDelete: handleDeleteTodo,
-              }}
-            />
-          ))
-        ) : (
-          <p>No matching tasks found.</p>
-        )}
+        {todos.map((todo, index) => (
+          <Card
+            key={index}
+            item={{
+              ...todo,
+              id: index,
+              handleEdit: handleEditTodo,
+              handleDelete: handleDeleteTodo,
+            }}
+          />
+        ))}
       </div>
       <Modal
         todoDescription={todos[currentTodo]?.description ?? ""}
