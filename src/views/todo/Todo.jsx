@@ -122,12 +122,12 @@ const Todo = () => {
     setSelectedPriority("");
     setSearchTerm("");
     console.log("searched term:", searchTerm);
-    console.log("selected prio:", selectedPriority);    
+    console.log("selected prio:", selectedPriority);
   };
 
   const handleSearch = (term) => {
     setSearchTerm(term);
-      const searchedTodoList = todos.filter((todo) => {
+    const searchedTodoList = clonedTodos.filter((todo) => {
       const searchInTasks = todo.description.toLowerCase().includes(term.toLowerCase());
       const searchInSubtasks = todo.subtasks?.some((subtask) =>
         subtask.toLowerCase().includes(term.toLowerCase())
@@ -146,7 +146,6 @@ const Todo = () => {
     setCurrentTodo(null);
   };
 
-
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -155,7 +154,7 @@ const Todo = () => {
       </div>
       <div className={classes.searchAndFilter}>
         <div>
-          <SearchBar value={searchTerm} onChange= {(e) => handleSearch(e.target.value)}/>
+          <SearchBar value={searchTerm} onChange={(e) => handleSearch(e.target.value)} />
         </div>
         <div className={classes.selectDropdown}>
           <FormControl className={classes.formControl} label="Priority">

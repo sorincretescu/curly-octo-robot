@@ -10,7 +10,6 @@ const SearchBar = (props) => {
               <Input 
               label="Search"
               {...props}/>
-              
           </div>
         );
       }
