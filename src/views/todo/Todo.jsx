@@ -66,6 +66,7 @@ const Todo = () => {
       priority: 1,
       creation_date: new Date().toISOString().split("T")[0],
       description: todoText,
+      subtasks: [],
     };
     setTodoText("");
     setTodos([...todos, newTodo]);
@@ -86,9 +87,7 @@ const Todo = () => {
 
   const handleSave = (description, priority, editedSubtasks) => {
     const newTodos = [...todos];
-    newTodos[currentTodo].description = description;
-    newTodos[currentTodo].priority = priority;
-    newTodos[currentTodo].subtasks = editedSubtasks;
+    newTodos[currentTodo] = {priority, description, subtasks: editedSubtasks}
     setTodos(newTodos);
     setOpenEditModal(false);
     setCurrentTodo(null);
@@ -101,6 +100,7 @@ const Todo = () => {
   };
 
   const handleAddNewSubtask = (subtask) => {
+    console.log("Subtask: ", subtask)
     const newTodos = [...todos];
     if (!newTodos[currentTodo]?.subtasks?.length) {
       newTodos[currentTodo].subtasks = [];

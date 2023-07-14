@@ -20,7 +20,6 @@ const useStyles = makeStyles({
     justifyContent: "center",
     alignItems: "center",
   },
-  actionButton: {},
 });
 
 const Modal = (props) => {
@@ -45,7 +44,7 @@ const Modal = (props) => {
     setTodoText(todoDescription);
     setPriority(defaultPriority);
     setSubtaskText(subtasks);
-  }, [todoDescription, defaultPriority]);
+  }, [todoDescription, defaultPriority, subtasks]);
 
   const handleIncreasePriority = () => {
     if (priority === 10) return;
@@ -66,8 +65,7 @@ const Modal = (props) => {
   const handleSaveClick = () => {
     const updatedSubtasks = subtaskText.filter((subtask) => subtask !== "");
     handleSave(todoText, priority, updatedSubtasks);
-
-  }
+  };
 
   return (
     <Dialog
