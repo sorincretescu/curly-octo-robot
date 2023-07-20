@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../../components/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
@@ -8,37 +8,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import axios from "axios";
 
-const DummyToDos = [
-  {
-    priority: 1,
-    creation_date: "2021-01-01",
-    description: "This is a description",
-    subtasks: ["Subtask 1", "Subtask 2", "Subtask 3", "Subtask 4", "Subtask 5"],
-  },
-  {
-    priority: 2,
-    creation_date: "2021-01-02",
-    description: "This is a description",
-  },
-  {
-    priority: 3,
-    creation_date: "2021-01-03",
-    description: "This is a description",
-    subtasks: [
-      "Subtask 2.1",
-      "Subtask 2",
-      "Subtask 3",
-      "Subtask 4",
-      "Subtask 5",
-    ],
-  },
-  {
-    priority: 4,
-    creation_date: "2021-01-04",
-    description: "This is a description",
-  },
-];
 
 const useStyles = makeStyles({
   root: {
@@ -73,12 +44,24 @@ const useStyles = makeStyles({
 const Todo = () => {
   const classes = useStyles();
 
-  const [todos, setTodos] = useState(DummyToDos);
+  const [DummyToDos, setDummyToDos] = useState([]);
+  const [todos, setTodos] = useState([]);
+  const [clonedTodos, setClonedTodos] = useState(todos);
   const [todoText, setTodoText] = useState("");
   const [openEditModal, setOpenEditModal] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
   const [selectedPriority, setSelectedPriority] = useState("");
   const [filteredTodos, setFilteredTodos] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/todos')
+      .then((response) => {setDummyToDos(response.data)
+      setTodos(response.data)})
+      .catch((error) => {console.log('Error fetching data:', error);
+
+    });
+  }, []);
 
   const handleAddTodo = () => {
     if (!todoText?.length) return;
@@ -89,6 +72,7 @@ const Todo = () => {
     };
     setTodoText("");
     setTodos([...todos, newTodo]);
+    setClonedTodos([...todos, newTodo]);
   };
 
   const handleEditTodo = (id) => {
@@ -106,19 +90,20 @@ const Todo = () => {
 
   const handlePrioritySort = (event) => {
     const selectedPriority = event.target.value;
-    const filteredPrioTodos = todos.filter((todo) =>
-      todo.priority === selectedPriority);
-    setFilteredTodos(filteredPrioTodos);
+    const filteredPrioTodos = todos.filter(
+      (todo) => todo.priority === selectedPriority
+    );
+    setTodos(filteredPrioTodos);
     setSelectedPriority(selectedPriority);
-  }
+  };
 
   const uniquePriorities = [...new Set(todos.map((todo) => todo.priority))];
 
   const handleSortReset = () => {
-    setTodos(DummyToDos);
-    setFilteredTodos([]);
+    setTodos(clonedTodos);
     setSelectedPriority("");
-  }
+    setSearchTerm("");
+  };
 
   const handleSave = (description, priority) => {
     const newTodos = [...todos];
@@ -173,34 +158,17 @@ const Todo = () => {
         text="Reset" />
       </div> 
       <div className={classes.cardsContainer}>
-        {selectedPriority === "" ? (
-          todos.length > 0 ? (
-            todos.map((todo, index) => (
-              <Card
-                key={index}
-                item={{
-                  ...todo,
-                  id: index,
-                  handleEdit: handleEditTodo,
-                  handleDelete: handleDeleteTodo,
-                }}
-              />
-            ))
-          ) : (null)
-
-        ) : filteredTodos.length > 0 ? (
-          filteredTodos.map((todo, index) => (
-            <Card
-              key={index}
-              item={{
-                ...todo,
-                id: index,
-                handleEdit: handleEditTodo,
-                handleDelete: handleDeleteTodo,
-              }}
-            />
-          ))
-        ) : (null)}
+      {todos.map((todo, index) => (
+          <Card
+            key={index}
+            item={{
+              ...todo,
+              id: index,
+              handleEdit: handleEditTodo,
+              handleDelete: handleDeleteTodo,
+            }}
+          />
+        ))}
 
       </div>
       <Modal
