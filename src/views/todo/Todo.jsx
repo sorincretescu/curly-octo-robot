@@ -76,6 +76,7 @@ const Todo = () => {
   const [todoText, setTodoText] = useState("");
   const [openEditModal, setOpenEditModal] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
+  const [expandedSubtasks, setExpandedSubtasks] = useState([]);
   const [selectedPriority, setSelectedPriority] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -85,6 +86,7 @@ const Todo = () => {
       priority: 1,
       creation_date: new Date().toISOString().split("T")[0],
       description: todoText,
+      subtasks: [],
     };
     setTodoText("");
     setTodos([...todos, newTodo]);
@@ -137,14 +139,20 @@ const Todo = () => {
 
   const handleSave = (description, priority) => {
     const newTodos = [...todos];
-    newTodos[currentTodo].description = description;
-    newTodos[currentTodo].priority = priority;
+    newTodos[currentTodo] = {priority, description, subtasks: editedSubtasks}
     setTodos(newTodos);
     setOpenEditModal(false);
     setCurrentTodo(null);
+    setExpandedSubtasks((prevExpandedSubtasks) => {
+      if(!prevExpandedSubtasks.includes(currentTodo)) {
+        return [...prevExpandedSubtasks, currentTodo];
+      }
+      return prevExpandedSubtasks;
+    })
   };
 
   const handleAddNewSubtask = (subtask) => {
+    console.log("Subtask: ", subtask)
     const newTodos = [...todos];
     if (!newTodos[currentTodo]?.subtasks?.length) {
       newTodos[currentTodo].subtasks = [];
