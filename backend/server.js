@@ -12,8 +12,8 @@ const uri = "mongodb+srv://aleneagu96:vBjfPY8qNECMNwcI@todo.orth1vn.mongodb.net/
 
 // Create a MongoDB client
 const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 });
 
 async function getDataFromDatabase() {
@@ -21,22 +21,19 @@ async function getDataFromDatabase() {
         await client.connect();
         const database = client.db("todo");
         const collection = database.collection("todos");
-
         const data = await collection.find({}).toArray();
-
         await client.close();
-
         return data;
     } catch (error) {
-        console.log('Error fetching data from the database',error);
+        console.log('Error fetching data from the database', error);
         throw error;
     }
 }
 // Start the server
-const PORT = 5000; // You can choose any available port number
+const PORT = 5000; 
 
 app.get('/api/todos', async (req, res) => {
-    try{
+    try {
         const data = await getDataFromDatabase();
         console.log(data);
         res.json(data);
@@ -47,5 +44,5 @@ app.get('/api/todos', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
