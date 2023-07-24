@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "../Button";
 import Input from "../Input";
@@ -25,18 +24,28 @@ const useStyles = makeStyles({
 });
 
 const Modal = (props) => {
-  const { open, handleClose, todoDescription, handleSave, defaultPriority } =
-    props;
+  const {
+    open,
+    handleClose,
+    todoDescription,
+    handleSave,
+    defaultPriority,
+    handleAddNewSubtask,
+    subtasks,
+  } = props;
 
   const [todoText, setTodoText] = useState(todoDescription);
   const [priority, setPriority] = useState(defaultPriority);
+  const [subtaskText, setSubtaskText] = useState(subtasks);
+  const [newSubtaskText, setNewSubtaskText] = useState("");
 
   const classes = useStyles();
 
   useEffect(() => {
     setTodoText(todoDescription);
     setPriority(defaultPriority);
-  }, [todoDescription, defaultPriority]);
+    setSubtaskText(subtasks);
+  }, [todoDescription, defaultPriority, subtasks]);
 
   const handleIncreasePriority = () => {
     if (priority === 10) return;
@@ -46,6 +55,12 @@ const Modal = (props) => {
   const handleDecreasePriority = () => {
     if (priority === 1) return;
     setPriority(priority - 1);
+  };
+
+  const handleSubtasksChange = (index, value) => {
+    setSubtaskText(
+      subtaskText.map((subtask, i) => (i === index ? value : subtask))
+    );
   };
 
   return (
@@ -63,6 +78,7 @@ const Modal = (props) => {
       <DialogContent>
         <Input
           value={todoText}
+          label="Todo description"
           onChange={(e) => setTodoText(e.target.value)}
           focused
         />
@@ -71,9 +87,31 @@ const Modal = (props) => {
           <span>{priority}</span>
           <AddCircleIcon onClick={handleIncreasePriority} />
         </div>
+
+        {subtasks?.map((subtask, index) => (
+          <Input
+            key={index}
+            value={subtaskText[index]}
+            label="Subtasks"
+            onChange={(e) => handleSubtasksChange(index, e.target.value)}
+          />
+        ))}
+
+        <Input
+          value={newSubtaskText}
+          label="Add subtask"
+          onChange={(e) => setNewSubtaskText(e.target.value)}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} text="Cancel" />
+        <Button
+          onClick={() => {
+            handleAddNewSubtask(newSubtaskText);
+            setNewSubtaskText("");
+          }}
+          text="Add subtask"
+        />
         <Button onClick={() => handleSave(todoText, priority)} text="Seidit" />
       </DialogActions>
     </Dialog>

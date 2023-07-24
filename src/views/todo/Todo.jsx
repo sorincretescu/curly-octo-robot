@@ -144,10 +144,25 @@ const Todo = () => {
     setCurrentTodo(null);
   };
 
+  const handleAddNewSubtask = (subtask) => {
+    const newTodos = [...todos];
+    if (!newTodos[currentTodo]?.subtasks?.length) {
+      newTodos[currentTodo].subtasks = [];
+      newTodos[currentTodo].subtasks.push(subtask);
+    } else {
+      newTodos[currentTodo].subtasks.push(subtask);
+    }
+    setTodos(newTodos);
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Input value={todoText} onChange={(e) => setTodoText(e.target.value)} />
+        <Input
+          value={todoText}
+          label="Todo description"
+          onChange={(e) => setTodoText(e.target.value)}
+        />
         <Button onClick={() => handleAddTodo()} text="Add Todo" />
       </div>
       <div className={classes.searchAndFilter}>
@@ -192,9 +207,11 @@ const Todo = () => {
       <Modal
         todoDescription={todos[currentTodo]?.description ?? ""}
         defaultPriority={todos[currentTodo]?.priority ?? 1}
+        subtasks={todos[currentTodo]?.subtasks ?? []}
         open={openEditModal}
         handleClose={handleCloseEditModal}
         handleSave={handleSave}
+        handleAddNewSubtask={handleAddNewSubtask}
       />
     </div>
   );
