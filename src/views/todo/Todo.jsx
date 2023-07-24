@@ -1,43 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../../components/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
-import { MenuItem, FormControl, Select } from "@material-ui/core";
-import SearchBar from "../../components/SearchBar";
-
-const DummyToDos = [
-  {
-    priority: 1,
-    creation_date: "2021-01-01",
-    description: "This is a description",
-    subtasks: ["Subtask 1", "Subtask 2", "Subtask 3", "Subtask 4", "Subtask 5"],
-  },
-  {
-    priority: 2,
-    creation_date: "2021-01-02",
-    description: "This is a description",
-    subtasks: ["puppy"],
-  },
-  {
-    priority: 3,
-    creation_date: "2021-01-03",
-    description: "This is a description",
-    subtasks: [
-      "Subtask 2.1",
-      "Subtask 2",
-      "Subtask 3",
-      "Subtask 4",
-      "Subtask 5",
-    ],
-  },
-  {
-    priority: 4,
-    creation_date: "2021-01-04",
-    description: "This is a description",
-  },
-];
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import axios from "axios";
 
 const useStyles = makeStyles({
   root: {
@@ -71,14 +42,28 @@ const useStyles = makeStyles({
 const Todo = () => {
   const classes = useStyles();
 
-  const [todos, setTodos] = useState(DummyToDos);
+  const [DummyToDos, setDummyToDos] = useState([]);
+  const [todos, setTodos] = useState([]);
   const [clonedTodos, setClonedTodos] = useState(todos);
   const [todoText, setTodoText] = useState("");
   const [openEditModal, setOpenEditModal] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
   const [expandedSubtasks, setExpandedSubtasks] = useState([]);
   const [selectedPriority, setSelectedPriority] = useState("");
+  const [filteredTodos, setFilteredTodos] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/todos")
+      .then((response) => {
+        setDummyToDos(response.data);
+        setTodos(response.data);
+      })
+      .catch((error) => {
+        console.log("Error fetching data:", error);
+      });
+  }, []);
 
   const handleAddTodo = () => {
     if (!todoText?.length) return;
@@ -139,20 +124,20 @@ const Todo = () => {
 
   const handleSave = (description, priority) => {
     const newTodos = [...todos];
-    newTodos[currentTodo] = {priority, description, subtasks: editedSubtasks}
+    newTodos[currentTodo] = { priority, description, subtasks: editedSubtasks };
     setTodos(newTodos);
     setOpenEditModal(false);
     setCurrentTodo(null);
     setExpandedSubtasks((prevExpandedSubtasks) => {
-      if(!prevExpandedSubtasks.includes(currentTodo)) {
+      if (!prevExpandedSubtasks.includes(currentTodo)) {
         return [...prevExpandedSubtasks, currentTodo];
       }
       return prevExpandedSubtasks;
-    })
+    });
   };
 
   const handleAddNewSubtask = (subtask) => {
-    console.log("Subtask: ", subtask)
+    console.log("Subtask: ", subtask);
     const newTodos = [...todos];
     if (!newTodos[currentTodo]?.subtasks?.length) {
       newTodos[currentTodo].subtasks = [];
