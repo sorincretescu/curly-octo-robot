@@ -33,7 +33,7 @@ async function getDataFromDatabase() {
   }
 }
 // Start the server
-const PORT = 5000; // You can choose any available port number
+const PORT = 5000;
 
 app.get("/api/todos", async (req, res) => {
   try {
