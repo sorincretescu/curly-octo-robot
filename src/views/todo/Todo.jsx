@@ -9,6 +9,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import axios from "axios";
+import SearchBar from "../../components/SearchBar";
 
 const useStyles = makeStyles({
   root: {
@@ -124,7 +125,7 @@ const Todo = () => {
 
   const handleSave = (description, priority) => {
     const newTodos = [...todos];
-    newTodos[currentTodo] = { priority, description, subtasks: editedSubtasks };
+    newTodos[currentTodo] = { priority, description };
     setTodos(newTodos);
     setOpenEditModal(false);
     setCurrentTodo(null);
