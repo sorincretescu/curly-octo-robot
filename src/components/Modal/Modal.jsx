@@ -20,7 +20,6 @@ const useStyles = makeStyles({
     justifyContent: "center",
     alignItems: "center",
   },
-  actionButton: {},
 });
 
 const Modal = (props) => {
@@ -61,6 +60,11 @@ const Modal = (props) => {
     setSubtaskText(
       subtaskText.map((subtask, i) => (i === index ? value : subtask))
     );
+  };
+
+  const handleSaveClick = () => {
+    const updatedSubtasks = subtaskText.filter((subtask) => subtask !== "");
+    handleSave(todoText, priority, updatedSubtasks);
   };
 
   return (
@@ -112,7 +116,7 @@ const Modal = (props) => {
           }}
           text="Add subtask"
         />
-        <Button onClick={() => handleSave(todoText, priority)} text="Seidit" />
+        <Button onClick={handleSaveClick} text="Seidit" />
       </DialogActions>
     </Dialog>
   );

@@ -4,12 +4,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 import axios from "axios";
-
 
 const useStyles = makeStyles({
   root: {
@@ -24,20 +23,19 @@ const useStyles = makeStyles({
     maxHeight: "70vh",
     overflow: "auto",
   },
-  selectDropdown: {
-    margin: 16,
-    display: 'flex',
-  },
   formControl: {
     minWidth: 150,
-    height: '80px',
-    alignContent:'center',
-
+    height: "80px",
   },
   selectEmpty: {
-    marginTop: 4,
-    backgroundColor:'white',
-    height:'90px',
+    marginTop: 10,
+    backgroundColor: "white",
+    height: "54px",
+    borderRadius: 4,
+  },
+  searchAndFilter: {
+    display: "flex",
+    marginLeft: "10px",
   },
 });
 
@@ -50,17 +48,21 @@ const Todo = () => {
   const [todoText, setTodoText] = useState("");
   const [openEditModal, setOpenEditModal] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
+  const [expandedSubtasks, setExpandedSubtasks] = useState([]);
   const [selectedPriority, setSelectedPriority] = useState("");
   const [filteredTodos, setFilteredTodos] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/todos')
-      .then((response) => {setDummyToDos(response.data)
-      setTodos(response.data)})
-      .catch((error) => {console.log('Error fetching data:', error);
-
-    });
+    axios
+      .get("http://localhost:5000/api/todos")
+      .then((response) => {
+        setDummyToDos(response.data);
+        setTodos(response.data);
+      })
+      .catch((error) => {
+        console.log("Error fetching data:", error);
+      });
   }, []);
 
   const handleAddTodo = () => {
@@ -69,6 +71,7 @@ const Todo = () => {
       priority: 1,
       creation_date: new Date().toISOString().split("T")[0],
       description: todoText,
+      subtasks: [],
     };
     setTodoText("");
     setTodos([...todos, newTodo]);
@@ -105,16 +108,36 @@ const Todo = () => {
     setSearchTerm("");
   };
 
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    const searchedTodoList = clonedTodos.filter((todo) => {
+      const searchInTasks = todo.description
+        .toLowerCase()
+        .includes(term.toLowerCase());
+      const searchInSubtasks = todo.subtasks?.some((subtask) =>
+        subtask.toLowerCase().includes(term.toLowerCase())
+      );
+      return searchInTasks || searchInSubtasks;
+    });
+    setTodos(searchedTodoList);
+  };
+
   const handleSave = (description, priority) => {
     const newTodos = [...todos];
-    newTodos[currentTodo].description = description;
-    newTodos[currentTodo].priority = priority;
+    newTodos[currentTodo] = { priority, description, subtasks: editedSubtasks };
     setTodos(newTodos);
     setOpenEditModal(false);
     setCurrentTodo(null);
+    setExpandedSubtasks((prevExpandedSubtasks) => {
+      if (!prevExpandedSubtasks.includes(currentTodo)) {
+        return [...prevExpandedSubtasks, currentTodo];
+      }
+      return prevExpandedSubtasks;
+    });
   };
 
   const handleAddNewSubtask = (subtask) => {
+    console.log("Subtask: ", subtask);
     const newTodos = [...todos];
     if (!newTodos[currentTodo]?.subtasks?.length) {
       newTodos[currentTodo].subtasks = [];
@@ -135,30 +158,34 @@ const Todo = () => {
         />
         <Button onClick={() => handleAddTodo()} text="Add Todo" />
       </div>
-      <div className={classes.selectDropdown}>
-        <FormControl className={classes.formControl}>
-          <Select
-            className={classes.selectEmpty}
-            label='Priority'
-            value={selectedPriority}
-            onChange={handlePrioritySort}
-          > {
-              todos.length > 0 &&
-              uniquePriorities.map((priority) => (
-                <MenuItem key={priority} value={priority} >
-                  {priority}
-                </MenuItem>
-              ))
-            }
-          </Select>
-        </FormControl>
-      
-      <Button 
-        onClick={handleSortReset} 
-        text="Reset" />
-      </div> 
+      <div className={classes.searchAndFilter}>
+        <div>
+          <SearchBar
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
+          />
+        </div>
+        <div className={classes.selectDropdown}>
+          <FormControl className={classes.formControl} label="Priority">
+            <Select
+              className={classes.selectEmpty}
+              label="Priority"
+              value={selectedPriority}
+              onChange={handlePrioritySort}
+            >
+              {todos.length > 0 &&
+                uniquePriorities.map((priority) => (
+                  <MenuItem key={priority} value={priority}>
+                    {priority}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+          <Button onClick={handleSortReset} text="Reset" />
+        </div>
+      </div>
       <div className={classes.cardsContainer}>
-      {todos.map((todo, index) => (
+        {todos.map((todo, index) => (
           <Card
             key={index}
             item={{
@@ -169,7 +196,6 @@ const Todo = () => {
             }}
           />
         ))}
-
       </div>
       <Modal
         todoDescription={todos[currentTodo]?.description ?? ""}
