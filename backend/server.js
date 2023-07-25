@@ -20,8 +20,8 @@ const client = new MongoClient(uri, {
 async function getDataFromDatabase() {
   try {
     await client.connect();
-    const database = client.db("Todos");
-    const collection = database.collection("Todos");
+    const database = client.db("todo");
+    const collection = database.collection("todos");
 
     const data = await collection.find({}).toArray();
 
