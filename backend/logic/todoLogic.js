@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const todoSchema = require("../../database/schemas/todoSchema");
+const todoSchema = require("../../database/schemas");
 const Todo = mongoose.model("Todo", todoSchema);
 
 async function getDataFromDatabase() {

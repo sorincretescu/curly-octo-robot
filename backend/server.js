@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
-const {getDataFromDatabase, addDataToDatabase} = require('./logic/todoLogic');
+const {getDataFromDatabase, addDataToDatabase} = require('./logic');
 
 const app = express();
 app.use(cors());

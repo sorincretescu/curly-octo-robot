@@ -1,1 +1,3 @@
-// export {default} from "./todoSchema";
+const todoSchema = require('./todoSchema');
+
+module.exports = todoSchema;
