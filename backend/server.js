@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
-const {getDataFromDatabase, addDataToDatabase} = require('./logic');
+const {getDataFromDatabase} = require('./logic');
 
 const app = express();
 app.use(cors());
@@ -37,16 +37,6 @@ const mongooseOptions = {
     try {
       const data = await getDataFromDatabase();
       res.json(data);
-    } catch (error) {
-      console.error("Error handling GET request", error);
-      res.status(500).json({ message: "Internal Server Error" });
-    }
-  });
-
-  app.get("/api/testing", async (req, res) => {
-    try {
-      await addDataToDatabase();
-      res.json({ message: "Data added successfully" });
     } catch (error) {
       console.error("Error handling GET request", error);
       res.status(500).json({ message: "Internal Server Error" });
