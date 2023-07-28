@@ -35,7 +35,6 @@ const mongooseOptions = {
   app.get("/api/todos", async (req, res) => {
     try {
       const data = await getDataFromDatabase();
-      console.log(data);
       res.json(data);
     } catch (error) {
       console.error("Error handling GET request", error);

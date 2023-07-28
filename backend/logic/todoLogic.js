@@ -5,7 +5,6 @@ const Todo = mongoose.model("Todo", todoSchema);
 async function getDataFromDatabase() {
   try {
     const data = await Todo.find({});
-    console.log("Data retrieved:", data);
     return data ?? [];
   } catch (error) {
     console.log("Error fetching data from the database", error);
@@ -22,7 +21,6 @@ async function addDataToDatabase() {
     });
 
     await newTodo.save();
-    console.log("Data added successfully:", newTodo);
   } catch (error) {
     console.error("Error adding data to the database:", error);
     throw error;
