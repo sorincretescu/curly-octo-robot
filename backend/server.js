@@ -1,52 +1,49 @@
-// Import required packages
 const express = require("express");
-const { MongoClient } = require("mongodb");
+const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
+const {getDataFromDatabase} = require('./logic');
 
-// Create an instance of Express
 const app = express();
 app.use(cors());
 
-// MongoDB connection URI
 const uri = process.env.URI ?? "";
+const port = process.env.PORT;
 
-// Create a MongoDB client
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
+const mongooseOptions = {
+  useNewUrlParser: true, 
   useUnifiedTopology: true,
-});
+};
 
-async function getDataFromDatabase() {
+(async () => {
   try {
-    await client.connect();
-    const database = client.db("Todos");
-    const collection = database.collection("Todos");
+    await mongoose.connect(uri, mongooseOptions);
+    console.log("Connected to MongoDB");
 
-    const data = await collection.find({}).toArray();
+    mongoose.connection.on('error', (err) => {
+      console.error('Mongoose connection error:', err);
+    });
+    
+    mongoose.connection.on('disconnected', () => {
+      console.log('Mongoose disconnected');
+    });
 
-    await client.close();
-
-    return data;
   } catch (error) {
-    console.log("Error fetching data from the database", error);
-    throw error;
+    console.error("Error connecting to MongoDB:", error);
   }
-}
-// Start the server
-const PORT = 5000;
+})();
 
-app.get("/api/todos", async (req, res) => {
-  try {
-    const data = await getDataFromDatabase();
-    console.log(data);
-    res.json(data);
-  } catch (error) {
-    console.error("Error handling GET request", error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
+  app.get("/api/todos", async (req, res) => {
+    try {
+      const data = await getDataFromDatabase();
+      res.json(data);
+    } catch (error) {
+      console.error("Error handling GET request", error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+  });
+
