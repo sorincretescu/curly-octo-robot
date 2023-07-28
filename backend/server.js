@@ -8,6 +8,7 @@ const app = express();
 app.use(cors());
 
 const uri = process.env.URI ?? "";
+const port = process.env.PORT;
 
 const mongooseOptions = {
   useNewUrlParser: true, 
@@ -52,8 +53,7 @@ const mongooseOptions = {
     }
   });
 
-  const PORT = 5000;
-  app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
   });
 

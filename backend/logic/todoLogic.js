@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const todoSchema = require("../../database/schemas");
 const Todo = mongoose.model("Todo", todoSchema);
 
-async function getDataFromDatabase() {
+const getDataFromDatabase = async () => {
   try {
     const data = await Todo.find({});
     return data ?? [];
@@ -12,19 +12,4 @@ async function getDataFromDatabase() {
   }
 }
 
-async function addDataToDatabase() {
-  try {
-    const newTodo = new Todo({
-      priority: 1,
-      description: "mare titlu de testat brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr ra papa bum bum mare test",
-      subtasks: ["abcd"],
-    });
-
-    await newTodo.save();
-  } catch (error) {
-    console.error("Error adding data to the database:", error);
-    throw error;
-  }
-}
-
-module.exports = { getDataFromDatabase, addDataToDatabase };
+module.exports = { getDataFromDatabase };
