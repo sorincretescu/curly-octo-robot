@@ -40,4 +40,16 @@ const updateTodo = async (id, updatedTodo) => {
   }
 };
 
-module.exports = { getDataFromDatabase, addTodo, updateTodo };
+const deleteTodo = async (id, todo) => {
+  try {
+    const result = await Todo.findByIdAndDelete(id, todo, {
+      new: true,
+    });
+    return result;
+  } catch (error) {
+    console.log("Error deleting todo in the database", error);
+    throw error;
+  };
+};
+
+module.exports = { getDataFromDatabase, updateTodo, deleteTodo, addTodo };

@@ -96,8 +96,19 @@ const Todo = () => {
     setOpenEditModal(true);
   };
 
+  const deleteTodoById = (_id) => {
+    return axios.delete(`http://localhost:5000/api/todos/${_id}`);
+  }
+
   const handleDeleteTodo = (id) => {
-    setTodos(todos.filter((todo, index) => index !== id));
+    const deletedTodo = todos[id]._id;
+    deleteTodoById(deletedTodo)
+      .then(() => {
+        setTodos(todos.filter((todo) => todo._id !== deletedTodo));
+      })
+      .catch((error) => {
+        console.error("Error deleting todo: ", error)
+      })
   };
 
   const handleCloseEditModal = () => {
@@ -135,18 +146,44 @@ const Todo = () => {
     setTodos(searchedTodoList);
   };
 
-  const handleSave = (description, priority) => {
+  const updateTodoById = (_id, updatedTodo) => {
+    return axios.put(`http://localhost:5000/api/todos/${_id}`, updatedTodo);
+  };
+
+  const handleSave = (description, priority, subtasks) => {
+    const updatedTodo = {
+      ...todos[currentTodo],
+      priority,
+      description,
+      subtasks,
+    };
+
+    const updatedTodoId = todos[currentTodo]?._id;
+
     const newTodos = [...todos];
-    newTodos[currentTodo] = { priority, description };
+    newTodos[currentTodo] = { ...updatedTodo };
     setTodos(newTodos);
-    setOpenEditModal(false);
-    setCurrentTodo(null);
-    setExpandedSubtasks((prevExpandedSubtasks) => {
-      if (!prevExpandedSubtasks.includes(currentTodo)) {
-        return [...prevExpandedSubtasks, currentTodo];
-      }
-      return prevExpandedSubtasks;
-    });
+
+    updateTodoById(updatedTodoId, updatedTodo)
+      .then((response) => {
+        const updatedTodos = todos.map((todo) => {
+          if (todo._id === updatedTodoId) {
+            return response.data;
+          }
+          return todo;
+        });
+        setTodos(updatedTodos);
+        setOpenEditModal(false);
+        setCurrentTodo(null);
+        setExpandedSubtasks((prevExpandedSubtasks) => {
+          if (!prevExpandedSubtasks.includes(currentTodo)) {
+            return [...prevExpandedSubtasks, currentTodo];
+          }
+          return prevExpandedSubtasks;
+        });
+      }).catch((error) => {
+        console.error("Error updating todo:", error);
+      });
   };
 
   const handleAddNewSubtask = (subtask) => {
@@ -211,6 +248,7 @@ const Todo = () => {
         ))}
       </div>
       <Modal
+        _id={todos[currentTodo]?._id ?? null}
         todoDescription={todos[currentTodo]?.description ?? ""}
         defaultPriority={todos[currentTodo]?.priority ?? 1}
         subtasks={todos[currentTodo]?.subtasks ?? []}
