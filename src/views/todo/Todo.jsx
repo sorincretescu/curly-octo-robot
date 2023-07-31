@@ -161,7 +161,6 @@ const Todo = () => {
           return todo;
         });
         setTodos(updatedTodos);
-        console.log(updatedTodo)
         setOpenEditModal(false);
         setCurrentTodo(null);
         setExpandedSubtasks((prevExpandedSubtasks) => {
