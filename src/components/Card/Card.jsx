@@ -62,7 +62,7 @@ const useStyles = makeStyles({
 const Card = (props) => {
   const {
     priority,
-    creation_date,
+    createdAt,
     description,
     id,
     handleDelete,
@@ -74,12 +74,16 @@ const Card = (props) => {
 
   const [isExpanded, setIsExpanded] = useState(expanded);
 
+
+
   const handleExpand = () => {
     setIsExpanded((prevExpended) => !prevExpended);
   };
 
   useEffect(() => {
     setIsExpanded(expanded);
+            
+    console.log(typeof createdAt)
   }, [expanded]);
 
   return (
@@ -127,7 +131,8 @@ const Card = (props) => {
               color="textSecondary"
               gutterBottom
             >
-              Creation date: <i>{creation_date ?? "xx.xx.xxxx"}</i>
+              Creation date: <i>{createdAt.split("T")[0] ?? "xx.xx.xxxx"}</i>
+              
             </Typography>
             <div className={classes.actions}>
               <EditIcon
