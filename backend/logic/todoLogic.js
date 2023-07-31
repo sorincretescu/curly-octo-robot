@@ -13,7 +13,7 @@ const getDataFromDatabase = async () => {
 }
 
 
-const addDataToDatabase = async (todoData) => {
+const addTodo = async (todoData) => {
   try {
     const newTodo = new Todo({
       priority: todoData.priority,
@@ -40,4 +40,4 @@ const updateTodo = async (id, updatedTodo) => {
   }
 };
 
-module.exports = { getDataFromDatabase, addDataToDatabase, updateTodo };
+module.exports = { getDataFromDatabase, addTodo, updateTodo };

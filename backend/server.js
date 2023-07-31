@@ -2,14 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
-const { getDataFromDatabase, addDataToDatabase , updateTodo} = require("./logic");
+const { getDataFromDatabase, addTodo , updateTodo} = require("./logic");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 const uri = process.env.URI ?? "";
-const port = process.env.PORT;
 
 const mongooseOptions = {
   useNewUrlParser: true,
@@ -65,7 +64,7 @@ app.post("/api/todos", async (req, res) => {
       subtasks: subtasks || [],
     };
 
-    await addDataToDatabase(newTodoData);
+    await addTodo(newTodoData);
 
     res.json({ message: "Todo added successfully" });
   } catch (error) {
