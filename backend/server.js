@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
-const { getDataFromDatabase, addDataToDatabase } = require("./logic");
+const { getDataFromDatabase, addDataToDatabase , updateTodo} = require("./logic");
 
 const app = express();
 app.use(cors());
@@ -42,6 +42,18 @@ app.get("/api/todos", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
+  app.put("/api/todos/:id", async (req, res) => {
+    try {
+      const {id} = req.params;
+      const updatedTodo = req.body;
+      const result = await updateTodo(id, updatedTodo);
+      res.json(result);
+    } catch (error) {
+      console.error("Error updating todo item: ", error);
+      res.status(500).json({message: "Internal Server Error"});
+    }
+  });
 
 app.post("/api/todos", async (req, res) => {
   try {

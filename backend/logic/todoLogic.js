@@ -28,4 +28,16 @@ const addDataToDatabase = async (todoData) => {
   }
 }
 
-module.exports = { getDataFromDatabase, addDataToDatabase };
+const updateTodo = async (id, updatedTodo) => {
+  try {
+    const result = await Todo.findByIdAndUpdate(id, updatedTodo, {
+      new: true,
+    });
+    return result;
+  } catch (error) {
+    console.log("Error updating todo in the database", error);
+    throw error;
+  }
+};
+
+module.exports = { getDataFromDatabase, addDataToDatabase, updateTodo };
