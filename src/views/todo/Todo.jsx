@@ -84,12 +84,19 @@ const Todo = () => {
     setOpenEditModal(true);
   };
 
-  const deleteTodoById = (_id, todo) => {
-    return axios.delete(`http://localhost:5000/api/todos/${_id}`, todo);
+  const deleteTodoById = (_id) => {
+    return axios.delete(`http://localhost:5000/api/todos/${_id}`);
   }
 
   const handleDeleteTodo = (id) => {
-    setTodos(todos.filter((todo, index) => index !== id));
+    const deletedTodo = todos[id]._id;
+    deleteTodoById(deletedTodo)
+      .then(() => {
+        setTodos(todos.filter((todo) => todo._id !== deletedTodo));
+      })
+      .catch((error) => {
+        console.error("Error deleting todo: ", error)
+      })
   };
 
   const handleCloseEditModal = () => {
