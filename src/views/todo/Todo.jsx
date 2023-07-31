@@ -43,7 +43,6 @@ const useStyles = makeStyles({
 const Todo = () => {
   const classes = useStyles();
 
-  const [DummyToDos, setDummyToDos] = useState([]);
   const [todos, setTodos] = useState([]);
   const [clonedTodos, setClonedTodos] = useState(todos);
   const [todoText, setTodoText] = useState("");
@@ -58,8 +57,7 @@ const Todo = () => {
     axios
       .get("http://localhost:5000/api/todos")
       .then((response) => {
-        setDummyToDos(response.data);
-        setTodos(response.data);
+       setTodos(response.data);
       })
       .catch((error) => {
         console.log("Error fetching data:", error);
@@ -77,13 +75,11 @@ const Todo = () => {
 
     axios
       .post("http://localhost:5000/api/todos", newtodo)
-      .then((response) => {
-        console.log("Todo added successfully:", response.data);
+      .then(() => {
         axios
           .get("http://localhost:5000/api/todos")
           .then((response) => {
             setTodoText("");
-            setDummyToDos(response.data);
             setTodos(response.data);
           })
           .catch((error) => {
