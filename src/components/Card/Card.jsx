@@ -73,18 +73,14 @@ const Card = (props) => {
   const classes = useStyles();
 
   const [isExpanded, setIsExpanded] = useState(expanded);
-
-
-
+  
   const handleExpand = () => {
     setIsExpanded((prevExpended) => !prevExpended);
   };
 
   useEffect(() => {
     setIsExpanded(expanded);
-            
-    console.log(typeof createdAt)
-  }, [expanded]);
+    }, [expanded]);
 
   return (
     <>
