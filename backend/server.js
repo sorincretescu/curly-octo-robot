@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
-const {getDataFromDatabase, updateTodo} = require('./logic');
+const {getDataFromDatabase, updateTodo, deleteTodo} = require('./logic');
 
 const app = express();
 app.use(cors());
@@ -53,7 +53,19 @@ const mongooseOptions = {
     } catch (error) {
       console.error("Error updating todo item: ", error);
       res.status(500).json({message: "Internal Server Error"});
-    }
+    };
+  });
+
+  app.delete("/api/todos/:id", async (req, res) => {
+    try {
+      const {id} = req.params;
+      const todo = req.body;
+      const result = await deleteTodo(id, todo);
+      res.json(result);
+    } catch (error) {
+      console.error("Error deleting todo item: " , error);
+      res.status(500).json({message:"Internal Server Error"});
+    };
   });
 
   app.listen(port, () => {
