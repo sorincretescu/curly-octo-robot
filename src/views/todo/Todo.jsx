@@ -68,15 +68,31 @@ const Todo = () => {
 
   const handleAddTodo = () => {
     if (!todoText?.length) return;
-    const newTodo = {
+
+    const newtodo = {
       priority: 1,
-      creation_date: new Date().toISOString().split("T")[0],
       description: todoText,
       subtasks: [],
     };
-    setTodoText("");
-    setTodos([...todos, newTodo]);
-    setClonedTodos([...todos, newTodo]);
+
+    axios
+      .post("http://localhost:5000/api/todos", newtodo)
+      .then((response) => {
+        console.log("Todo added successfully:", response.data);
+        axios
+          .get("http://localhost:5000/api/todos")
+          .then((response) => {
+            setTodoText("");
+            setDummyToDos(response.data);
+            setTodos(response.data);
+          })
+          .catch((error) => {
+            console.log("Error fetching data:", error);
+          });
+      })
+      .catch((error) => {
+        console.log("Error adding todo:", error);
+      });
   };
 
   const handleEditTodo = (id) => {
