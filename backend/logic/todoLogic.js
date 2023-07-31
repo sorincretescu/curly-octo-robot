@@ -12,4 +12,16 @@ const getDataFromDatabase = async () => {
   }
 }
 
-module.exports = { getDataFromDatabase };
+const updateTodo = async (id, updatedTodo) => {
+  try {
+    const result = await Todo.findByIdAndUpdate(id, updatedTodo, {
+      new: true,
+    });
+    return result;
+  } catch (error) {
+    console.log("Error updating todo in the database", error);
+    throw error;
+  }
+};
+
+module.exports = { getDataFromDatabase, updateTodo };
