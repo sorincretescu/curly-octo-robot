@@ -40,6 +40,7 @@ const useStyles = makeStyles({
   },
 });
 
+
 const Todo = () => {
   const classes = useStyles();
 
@@ -57,7 +58,7 @@ const Todo = () => {
     axios
       .get("http://localhost:5000/api/todos")
       .then((response) => {
-       setTodos(response.data);
+        setTodos(response.data);
       })
       .catch((error) => {
         console.log("Error fetching data:", error);

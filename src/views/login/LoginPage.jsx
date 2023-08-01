@@ -3,6 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
+
+
 
 const useStyles = makeStyles({
   root: {
@@ -20,6 +23,9 @@ const useStyles = makeStyles({
 });
 
 function LoginPage({ setAuthenticated }) {
+
+  const { t, i18n } = useTranslation();
+
   const classes = useStyles();
 
   const [username, setUsername] = useState("");
@@ -51,22 +57,25 @@ function LoginPage({ setAuthenticated }) {
 
   return (
     <div className={classes.root}>
+
       <div className={classes.header}>
-        <h1>Enter your credentials</h1>
+        <h1> {t('enter')} </h1>
       </div>
 
       <div className={classes.loginCredentials}>
-        <Input value={username} label="Username" onChange={handleUsername} />
+        <Input value={username} label={t('username')} onChange={handleUsername} />
         <Input
           value={pass}
-          label="Password"
+          label={t('password')}
           type="password"
           onChange={handlePass}
           error={errorPass.length}
           helperText={errorPass}
         />
 
-        <Button text="Log in" onClick={handleLogin} />
+        <Button text={t('login')} onClick={handleLogin} />
+        <Button text='English' onClick={() => i18n.changeLanguage('en')} />
+        <Button text='German' onClick={() => i18n.changeLanguage('de')} />
       </div>
     </div>
   );
