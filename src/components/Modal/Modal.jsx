@@ -9,6 +9,7 @@ import Input from "../Input";
 import { Slide } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
+import { useTranslation } from "react-i18next";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -39,6 +40,7 @@ const Modal = (props) => {
   const [newSubtaskText, setNewSubtaskText] = useState("");
 
   const classes = useStyles();
+  const { t } = useTranslation();
 
   useEffect(() => {
     setTodoText(todoDescription);
@@ -76,13 +78,11 @@ const Modal = (props) => {
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle id="alert-dialog-slide-title">
-        {"Edit your task/todo"}
-      </DialogTitle>
+      <DialogTitle id="alert-dialog-slide-title">{t("edit_modal")}</DialogTitle>
       <DialogContent>
         <Input
           value={todoText}
-          label="Todo description"
+          label={t("todo_description")}
           onChange={(e) => setTodoText(e.target.value)}
           focused
         />
@@ -96,27 +96,27 @@ const Modal = (props) => {
           <Input
             key={index}
             value={subtaskText[index]}
-            label="Subtasks"
+            label={t("subtasks")}
             onChange={(e) => handleSubtasksChange(index, e.target.value)}
           />
         ))}
 
         <Input
           value={newSubtaskText}
-          label="Add subtask"
+          label={t("addSubtask")}
           onChange={(e) => setNewSubtaskText(e.target.value)}
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} text="Cancel" />
+        <Button onClick={handleClose} text={t("btn_cancel")} />
         <Button
           onClick={() => {
             handleAddNewSubtask(newSubtaskText);
             setNewSubtaskText("");
           }}
-          text="Add subtask"
+          text={t("addSubtask")}
         />
-        <Button onClick={handleSaveClick} text="Seidit" />
+        <Button onClick={handleSaveClick} text={t("btn_edit")} />
       </DialogActions>
     </Dialog>
   );

@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import { MenuItem } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
+
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles({
   root: {
@@ -17,10 +22,24 @@ const useStyles = makeStyles({
     maxHeight: "70vh",
     overflow: "auto",
   },
+  selectEmpty: {
+    marginTop: 10,
+    backgroundColor: "white",
+    height: "40px",
+    borderRadius: 4,
+    paddingLeft: "10px",
+    width: "150px",
+  },
+  formControl: {
+    minWidth: 150,
+    height: "80px",
+    marginLeft: "10px",
+  },
 });
 
 function LoginPage({ setAuthenticated }) {
   const classes = useStyles();
+  const { t, i18n } = useTranslation();
 
   const [username, setUsername] = useState("");
   const [pass, setPass] = useState("");
@@ -49,24 +68,43 @@ function LoginPage({ setAuthenticated }) {
     }
   };
 
+  const handleChangeLanguage = (e) => {
+    i18n.changeLanguage(e.target.value);
+  };
+
   return (
     <div className={classes.root}>
+      <div className={classes.selectDropdown}>
+        <FormControl className={classes.formControl}>
+          <Select
+            className={classes.selectEmpty}
+            onChange={handleChangeLanguage}
+          >
+            <MenuItem value={"en"}>English</MenuItem>
+            <MenuItem value={"de"}>Deutsch</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
       <div className={classes.header}>
-        <h1>Enter your credentials</h1>
+        <h1>{t("credentials")}</h1>
       </div>
 
       <div className={classes.loginCredentials}>
-        <Input value={username} label="Username" onChange={handleUsername} />
+        <Input
+          value={username}
+          label={t("username")}
+          onChange={handleUsername}
+        />
         <Input
           value={pass}
-          label="Password"
+          label={t("password")}
           type="password"
           onChange={handlePass}
           error={errorPass.length}
           helperText={errorPass}
         />
 
-        <Button text="Log in" onClick={handleLogin} />
+        <Button text={t("logIn")} onClick={handleLogin} />
       </div>
     </div>
   );
