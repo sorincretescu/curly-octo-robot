@@ -9,6 +9,8 @@ import Input from "../Input";
 import { Slide } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
+import { useTranslation } from 'react-i18next';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -33,6 +35,7 @@ const Modal = (props) => {
     subtasks,
   } = props;
 
+  const { t } = useTranslation();
   const [todoText, setTodoText] = useState(todoDescription);
   const [priority, setPriority] = useState(defaultPriority);
   const [subtaskText, setSubtaskText] = useState(subtasks);
@@ -77,12 +80,12 @@ const Modal = (props) => {
       aria-describedby="alert-dialog-slide-description"
     >
       <DialogTitle id="alert-dialog-slide-title">
-        {"Edit your task/todo"}
+        {t('editTask')}
       </DialogTitle>
       <DialogContent>
         <Input
           value={todoText}
-          label="Todo description"
+          label={t('todoDescription')}
           onChange={(e) => setTodoText(e.target.value)}
           focused
         />
@@ -96,27 +99,27 @@ const Modal = (props) => {
           <Input
             key={index}
             value={subtaskText[index]}
-            label="Subtasks"
+            label={t('subtasks')}
             onChange={(e) => handleSubtasksChange(index, e.target.value)}
           />
         ))}
 
         <Input
           value={newSubtaskText}
-          label="Add subtask"
+          label={t('addSubtask')}
           onChange={(e) => setNewSubtaskText(e.target.value)}
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} text="Cancel" />
+        <Button onClick={handleClose} text={t('cancel')} />
         <Button
           onClick={() => {
             handleAddNewSubtask(newSubtaskText);
             setNewSubtaskText("");
           }}
-          text="Add subtask"
+          text={t('addSubtask')}
         />
-        <Button onClick={handleSaveClick} text="Seidit" />
+        <Button onClick={handleSaveClick} text={t('seidit')} />
       </DialogActions>
     </Dialog>
   );

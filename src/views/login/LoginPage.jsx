@@ -5,8 +5,6 @@ import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
-
-
 const useStyles = makeStyles({
   root: {
     display: "flex",
@@ -25,7 +23,6 @@ const useStyles = makeStyles({
 function LoginPage({ setAuthenticated }) {
 
   const { t, i18n } = useTranslation();
-
   const classes = useStyles();
 
   const [username, setUsername] = useState("");
@@ -57,11 +54,9 @@ function LoginPage({ setAuthenticated }) {
 
   return (
     <div className={classes.root}>
-
       <div className={classes.header}>
         <h1> {t('enter')} </h1>
       </div>
-
       <div className={classes.loginCredentials}>
         <Input value={username} label={t('username')} onChange={handleUsername} />
         <Input
@@ -72,7 +67,6 @@ function LoginPage({ setAuthenticated }) {
           error={errorPass.length}
           helperText={errorPass}
         />
-
         <Button text={t('login')} onClick={handleLogin} />
         <Button text='English' onClick={() => i18n.changeLanguage('en')} />
         <Button text='German' onClick={() => i18n.changeLanguage('de')} />

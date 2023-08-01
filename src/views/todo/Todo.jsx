@@ -10,6 +10,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar";
+import { useTranslation } from 'react-i18next';
+
 
 const useStyles = makeStyles({
   root: {
@@ -43,6 +45,7 @@ const useStyles = makeStyles({
 
 const Todo = () => {
   const classes = useStyles();
+  const { t, i18n } = useTranslation();
 
   const [todos, setTodos] = useState([]);
   const [clonedTodos, setClonedTodos] = useState(todos);
@@ -201,13 +204,17 @@ const Todo = () => {
 
   return (
     <div className={classes.root}>
+      <div>
+        <Button text='English' onClick={() => i18n.changeLanguage('en')} />
+        <Button text='German' onClick={() => i18n.changeLanguage('de')} />
+      </div>
       <div className={classes.header}>
         <Input
           value={todoText}
-          label="Todo description"
+          label={t('todoDescription')}
           onChange={(e) => setTodoText(e.target.value)}
         />
-        <Button onClick={() => handleAddTodo()} text="Add Todo" />
+        <Button onClick={() => handleAddTodo()} text={t('addTodo')} />
       </div>
       <div className={classes.searchAndFilter}>
         <div>
@@ -217,10 +224,10 @@ const Todo = () => {
           />
         </div>
         <div className={classes.selectDropdown}>
-          <FormControl className={classes.formControl} label="Priority">
+          <FormControl className={classes.formControl} label={t('priority')}>
             <Select
               className={classes.selectEmpty}
-              label="Priority"
+              label={t('priority')}
               value={selectedPriority}
               onChange={handlePrioritySort}
             >
@@ -232,7 +239,7 @@ const Todo = () => {
                 ))}
             </Select>
           </FormControl>
-          <Button onClick={handleSortReset} text="Reset" />
+          <Button onClick={handleSortReset} text={t('reset')} />
         </div>
       </div>
       <div className={classes.cardsContainer}>
