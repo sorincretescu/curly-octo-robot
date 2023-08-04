@@ -4,12 +4,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
-import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar";
+
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
 
 const useStyles = makeStyles({
   root: {
@@ -33,6 +35,16 @@ const useStyles = makeStyles({
     backgroundColor: "white",
     height: "54px",
     borderRadius: 4,
+    paddingLeft: "10px",
+  },
+  selectLanguage: {
+    marginTop: 10,
+    backgroundColor: "white",
+    height: "40px",
+    borderRadius: 4,
+    marginLeft: "14px",
+    width: "150px",
+    paddingLeft: "10px",
   },
   searchAndFilter: {
     display: "flex",
@@ -42,6 +54,7 @@ const useStyles = makeStyles({
 
 const Todo = () => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const [todos, setTodos] = useState([]);
   const [clonedTodos, setClonedTodos] = useState(todos);
@@ -57,7 +70,7 @@ const Todo = () => {
     axios
       .get("http://localhost:5000/api/todos")
       .then((response) => {
-       setTodos(response.data);
+        setTodos(response.data);
       })
       .catch((error) => {
         console.log("Error fetching data:", error);
@@ -98,7 +111,7 @@ const Todo = () => {
 
   const deleteTodoById = (_id) => {
     return axios.delete(`http://localhost:5000/api/todos/${_id}`);
-  }
+  };
 
   const handleDeleteTodo = (id) => {
     const deletedTodo = todos[id]._id;
@@ -107,8 +120,8 @@ const Todo = () => {
         setTodos(todos.filter((todo) => todo._id !== deletedTodo));
       })
       .catch((error) => {
-        console.error("Error deleting todo: ", error)
-      })
+        console.error("Error deleting todo: ", error);
+      });
   };
 
   const handleCloseEditModal = () => {
@@ -181,7 +194,8 @@ const Todo = () => {
           }
           return prevExpandedSubtasks;
         });
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.error("Error updating todo:", error);
       });
   };
@@ -198,21 +212,38 @@ const Todo = () => {
     setTodos(newTodos);
   };
 
+  const handleChangeLanguage = (e) => {
+    i18n.changeLanguage(e.target.value);
+  };
+
   return (
     <div className={classes.root}>
+      <div className={classes.selectDropdown}>
+        <FormControl className={classes.formControl}>
+          <Select
+            className={classes.selectLanguage}
+            onChange={handleChangeLanguage}
+          >
+            <MenuItem value={"en"}>English</MenuItem>
+            <MenuItem value={"de"}>Deutsch</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
       <div className={classes.header}>
         <Input
           value={todoText}
-          label="Todo description"
+          label={t("todo_description")}
           onChange={(e) => setTodoText(e.target.value)}
         />
-        <Button onClick={() => handleAddTodo()} text="Add Todo" />
+        <Button onClick={() => handleAddTodo()} text={t("btn_addTodo")} />
       </div>
+
       <div className={classes.searchAndFilter}>
         <div>
           <SearchBar
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
+            label={t("searchInput")}
           />
         </div>
         <div className={classes.selectDropdown}>
@@ -231,7 +262,7 @@ const Todo = () => {
                 ))}
             </Select>
           </FormControl>
-          <Button onClick={handleSortReset} text="Reset" />
+          <Button onClick={handleSortReset} text={t("btn_reset")} />
         </div>
       </div>
       <div className={classes.cardsContainer}>

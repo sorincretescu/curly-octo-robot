@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CardMUI from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -9,6 +9,8 @@ import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles({
   root: {
@@ -68,19 +70,20 @@ const Card = (props) => {
     handleDelete,
     handleEdit,
     subtasks,
-    expanded
+    expanded,
   } = props.item;
   const classes = useStyles();
 
+  const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(expanded);
-  
+
   const handleExpand = () => {
     setIsExpanded((prevExpended) => !prevExpended);
   };
 
   useEffect(() => {
     setIsExpanded(expanded);
-    }, [expanded]);
+  }, [expanded]);
 
   return (
     <>
@@ -92,10 +95,10 @@ const Card = (props) => {
               color="textSecondary"
               gutterBottom
             >
-              Priority: <i>{priority ?? "No priority"}</i>
+              {t("priority")}: <i>{priority ?? t("no_priority")}</i>
             </Typography>
             <Typography variant="h5" component="h2">
-              TODO #<i>{id ?? "No id"}</i>
+              {t("todo")} #<i>{id ?? "No id"}</i>
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
               {description ?? "No description"}
@@ -106,7 +109,9 @@ const Card = (props) => {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography className={classes.heading}>Subtasks</Typography>
+                <Typography className={classes.heading}>
+                  {t("subtasks")}
+                </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 {subtasks?.length ? (
@@ -116,7 +121,7 @@ const Card = (props) => {
                     ))}
                   </ul>
                 ) : (
-                  <p>No subtasks</p>
+                  <p>{t("no_subtasks")}</p>
                 )}
               </AccordionDetails>
             </Accordion>
@@ -127,8 +132,8 @@ const Card = (props) => {
               color="textSecondary"
               gutterBottom
             >
-              Creation date: <i>{createdAt.split("T")[0] ?? "xx.xx.xxxx"}</i>
-              
+              {t("creation_date")}:{" "}
+              <i>{createdAt.split("T")[0] ?? "xx.xx.xxxx"}</i>
             </Typography>
             <div className={classes.actions}>
               <EditIcon
