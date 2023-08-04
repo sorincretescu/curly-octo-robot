@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
+const userSchema = require("../schemas/userSchema");
 
- const User = mongoose.model("User", {userSchema});
+const User = mongoose.model("User", userSchema);
 
- const user = new User({username:'test', password:'test'});
- await user.save();
+module.exports = User;

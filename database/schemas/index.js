@@ -1,3 +1,4 @@
-const todoSchema = require('./todoSchema');
+const todoSchema = require("./todoSchema");
+const userSchema = require("./userSchema");
 
-module.exports = todoSchema;
+module.exports = { todoSchema, userSchema };

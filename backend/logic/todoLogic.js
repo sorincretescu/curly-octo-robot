@@ -10,8 +10,7 @@ const getDataFromDatabase = async () => {
     console.log("Error fetching data from the database", error);
     throw error;
   }
-}
-
+};
 
 const addTodo = async (todoData) => {
   try {
@@ -26,7 +25,7 @@ const addTodo = async (todoData) => {
     console.error("Error adding data to the database:", error);
     throw error;
   }
-}
+};
 
 const updateTodo = async (id, updatedTodo) => {
   try {
@@ -49,7 +48,7 @@ const deleteTodo = async (id, todo) => {
   } catch (error) {
     console.log("Error deleting todo in the database", error);
     throw error;
-  };
+  }
 };
 
 module.exports = { getDataFromDatabase, updateTodo, deleteTodo, addTodo };

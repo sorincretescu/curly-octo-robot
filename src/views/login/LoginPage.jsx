@@ -42,16 +42,35 @@ function LoginPage({ setAuthenticated }) {
   const { t, i18n } = useTranslation();
 
   const [username, setUsername] = useState("");
-  const [pass, setPass] = useState("");
-  const [errorPass, setErrorPass] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorCredentials, setErrorCredentials] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    if (username === "test" && pass === "test") {
-      setAuthenticated(true);
-      navigate("/todo");
-    } else {
-      if (!pass.length) setErrorPass("Enter password.");
+  const handleLogin = async () => {
+    if (!username || !password) {
+      setErrorCredentials("Enter username and password");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setAuthenticated(true);
+        navigate("/todo");
+      } else {
+        setErrorCredentials("Invalid credentials");
+      }
+    } catch (error) {
+      setErrorCredentials("Error occured during login");
     }
   };
 
@@ -59,13 +78,8 @@ function LoginPage({ setAuthenticated }) {
     setUsername(e.target.value);
   };
 
-  const handlePass = (e) => {
-    setPass(e.target.value);
-    if (e.target.value.length > 4) {
-      setErrorPass("Password does not match");
-    } else {
-      setErrorPass("");
-    }
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
   };
 
   const handleChangeLanguage = (e) => {
@@ -94,14 +108,16 @@ function LoginPage({ setAuthenticated }) {
           value={username}
           label={t("username")}
           onChange={handleUsername}
+          error={errorCredentials.length}
+          helperText={errorCredentials}
         />
         <Input
-          value={pass}
+          value={password}
           label={t("password")}
           type="password"
-          onChange={handlePass}
-          error={errorPass.length}
-          helperText={errorPass}
+          onChange={handlePassword}
+          error={errorCredentials.length}
+          helperText={errorCredentials}
         />
 
         <Button text={t("logIn")} onClick={handleLogin} />
