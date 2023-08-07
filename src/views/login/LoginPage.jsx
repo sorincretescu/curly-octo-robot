@@ -37,7 +37,7 @@ const useStyles = makeStyles({
   },
 });
 
-function LoginPage({ setAuthenticated }) {
+function LoginPage({ setAuthenticated, setLoggedInUsername }) {
   const classes = useStyles();
   const { t, i18n } = useTranslation();
 
@@ -65,6 +65,7 @@ function LoginPage({ setAuthenticated }) {
 
       if (data.success) {
         setAuthenticated(true);
+        setLoggedInUsername(data.username);
         navigate("/todo");
       } else {
         setErrorCredentials("Invalid credentials");
