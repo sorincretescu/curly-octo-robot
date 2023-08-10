@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
+import "./i18n";
 
 import './i18n';
 
@@ -12,7 +13,7 @@ root.render(
   <React.StrictMode>
     <Router>
       <App />
-      </Router>
+    </Router>
   </React.StrictMode>
 );
 

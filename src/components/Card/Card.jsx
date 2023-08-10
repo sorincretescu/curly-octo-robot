@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CardMUI from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -63,13 +64,13 @@ const useStyles = makeStyles({
 const Card = (props) => {
   const {
     priority,
-    creation_date,
+    createdAt,
     description,
     id,
     handleDelete,
     handleEdit,
     subtasks,
-    expanded
+    expanded,
   } = props.item;
 
   const classes = useStyles();

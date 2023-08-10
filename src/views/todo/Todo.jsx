@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
-import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -35,6 +34,16 @@ const useStyles = makeStyles({
     backgroundColor: "white",
     height: "54px",
     borderRadius: 4,
+    paddingLeft: "10px",
+  },
+  selectLanguage: {
+    marginTop: 10,
+    backgroundColor: "white",
+    height: "40px",
+    borderRadius: 4,
+    marginLeft: "14px",
+    width: "150px",
+    paddingLeft: "10px",
   },
   searchAndFilter: {
     display: "flex",
@@ -61,6 +70,7 @@ const Todo = () => {
     axios
       .get("http://localhost:5000/api/todos")
       .then((response) => {
+        setTodos(response.data);
         setTodos(response.data);
       })
       .catch((error) => {
@@ -102,7 +112,7 @@ const Todo = () => {
 
   const deleteTodoById = (_id) => {
     return axios.delete(`http://localhost:5000/api/todos/${_id}`);
-  }
+  };
 
   const handleDeleteTodo = (id) => {
     const deletedTodo = todos[id]._id;
@@ -111,8 +121,8 @@ const Todo = () => {
         setTodos(todos.filter((todo) => todo._id !== deletedTodo));
       })
       .catch((error) => {
-        console.error("Error deleting todo: ", error)
-      })
+        console.error("Error deleting todo: ", error);
+      });
   };
 
   const handleCloseEditModal = () => {
@@ -185,7 +195,8 @@ const Todo = () => {
           }
           return prevExpandedSubtasks;
         });
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.error("Error updating todo:", error);
       });
   };
@@ -202,6 +213,10 @@ const Todo = () => {
     setTodos(newTodos);
   };
 
+  const handleChangeLanguage = (e) => {
+    i18n.changeLanguage(e.target.value);
+  };
+
   return (
     <div className={classes.root}>
       <div>
@@ -216,11 +231,13 @@ const Todo = () => {
         />
         <Button onClick={() => handleAddTodo()} text={t('addTodo')} />
       </div>
+
       <div className={classes.searchAndFilter}>
         <div>
           <SearchBar
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
+            label={t("searchInput")}
           />
         </div>
         <div className={classes.selectDropdown}>
