@@ -100,15 +100,14 @@ function LoginPage({ setAuthenticated, setLoggedInUsername }) {
         </FormControl>
       </div>
       <div className={classes.header}>
-        <h1> {t("enter")} </h1>
+        <h1>{t("credentials")}</h1>
       </div>
+
       <div className={classes.loginCredentials}>
         <Input
           value={username}
           label={t("username")}
           onChange={handleUsername}
-          error={errorCredentials.length}
-          helperText={errorCredentials}
         />
         <Input
           value={password}
@@ -118,9 +117,8 @@ function LoginPage({ setAuthenticated, setLoggedInUsername }) {
           error={errorCredentials.length}
           helperText={errorCredentials}
         />
-        <Button text={t("login")} onClick={handleLogin} />
-        <Button text="English" onClick={() => i18n.changeLanguage("en")} />
-        <Button text="German" onClick={() => i18n.changeLanguage("de")} />
+
+        <Button text={t("logIn")} onClick={handleLogin} />
       </div>
     </div>
   );

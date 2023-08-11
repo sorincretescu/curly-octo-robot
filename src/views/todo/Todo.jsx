@@ -227,17 +227,24 @@ const Todo = ({ loggedInUsername }) => {
 
   return (
     <div className={classes.root}>
-      <div>
-        <Button text="English" onClick={() => i18n.changeLanguage("en")} />
-        <Button text="German" onClick={() => i18n.changeLanguage("de")} />
+      <div className={classes.selectDropdown}>
+        <FormControl className={classes.formControl}>
+          <Select
+            className={classes.selectLanguage}
+            onChange={handleChangeLanguage}
+          >
+            <MenuItem value={"en"}>English</MenuItem>
+            <MenuItem value={"de"}>Deutsch</MenuItem>
+          </Select>
+        </FormControl>
       </div>
       <div className={classes.header}>
         <Input
           value={todoText}
-          label={t("todoDescription")}
+          label={t("todo_description")}
           onChange={(e) => setTodoText(e.target.value)}
         />
-        <Button onClick={() => handleAddTodo()} text={t("addTodo")} />
+        <Button onClick={() => handleAddTodo()} text={t("btn_addTodo")} />
       </div>
 
       <div className={classes.searchAndFilter}>
@@ -249,10 +256,10 @@ const Todo = ({ loggedInUsername }) => {
           />
         </div>
         <div className={classes.selectDropdown}>
-          <FormControl className={classes.formControl} label={t("priority")}>
+          <FormControl className={classes.formControl} label="Priority">
             <Select
               className={classes.selectEmpty}
-              label={t("priority")}
+              label="Priority"
               value={selectedPriority}
               onChange={handlePrioritySort}
             >
@@ -264,7 +271,7 @@ const Todo = ({ loggedInUsername }) => {
                 ))}
             </Select>
           </FormControl>
-          <Button onClick={handleSortReset} text={t("reset")} />
+          <Button onClick={handleSortReset} text={t("btn_reset")} />
         </div>
       </div>
       <div className={classes.cardsContainer}>
