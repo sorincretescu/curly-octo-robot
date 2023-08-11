@@ -108,6 +108,8 @@ function LoginPage({ setAuthenticated, setLoggedInUsername }) {
           value={username}
           label={t("username")}
           onChange={handleUsername}
+          error={errorCredentials.length}
+          helperText={errorCredentials}
         />
         <Input
           value={password}
