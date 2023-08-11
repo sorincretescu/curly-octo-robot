@@ -1,6 +1,6 @@
 import "./App.css";
 import Todo from "./views/todo/Todo";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Routes, Route } from "react-router-dom";
 import LoginPage from "./views/login/LoginPage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
