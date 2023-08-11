@@ -98,7 +98,7 @@ const Card = (props) => {
               {t("priority")}: <i>{priority ?? t("no_priority")}</i>
             </Typography>
             <Typography variant="h5" component="h2">
-              {t("todo")} #<i>{id ?? "No id"}</i>
+              {t("todo")} #<i>{id ?? t("noId")}</i>
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
               {description ?? "No description"}

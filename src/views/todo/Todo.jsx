@@ -67,10 +67,9 @@ const Todo = ({ loggedInUsername }) => {
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/todos", {
-        params: { username: loggedInUsername }, // Pass the username as a query parameter
+        params: { username: loggedInUsername },
       })
       .then((response) => {
-        setTodos(response.data);
         setTodos(response.data);
       })
       .catch((error) => {
