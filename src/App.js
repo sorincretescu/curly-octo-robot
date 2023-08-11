@@ -8,6 +8,7 @@ import { useEffect } from "react";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
+  const [loggedInUsername, setLoggedInUsername] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,12 +20,20 @@ function App() {
 
   return (
     <div className="App">
-     <Routes>
+      <Routes>
         <Route
           path="/"
-          element={<LoginPage setAuthenticated={setAuthenticated} />}
+          element={
+            <LoginPage
+              setAuthenticated={setAuthenticated}
+              setLoggedInUsername={setLoggedInUsername}
+            />
+          }
         />
-        <Route path="/todo" element={<Todo />} />
+        <Route
+          path="/todo"
+          element={<Todo loggedInUsername={loggedInUsername} />}
+        />
       </Routes>
     </div>
   );
