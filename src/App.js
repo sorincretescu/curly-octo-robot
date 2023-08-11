@@ -9,34 +9,32 @@ import { useEffect } from "react";
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [loggedInUsername, setLoggedInUsername] = useState("");
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkAuthentication = () => {
-      // if (!authenticated) return navigate("/");
+      if (!authenticated) return navigate("/");
     };
     checkAuthentication();
   }, [authenticated]);
 
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <LoginPage
-                setAuthenticated={setAuthenticated}
-                setLoggedInUsername={setLoggedInUsername}
-              />
-            }
-          />
-          <Route
-            path="/todo"
-            element={<Todo loggedInUsername={loggedInUsername} />}
-          />
-        </Routes>
-      </Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <LoginPage
+              setAuthenticated={setAuthenticated}
+              setLoggedInUsername={setLoggedInUsername}
+            />
+          }
+        />
+        <Route
+          path="/todo"
+          element={<Todo loggedInUsername={loggedInUsername} />}
+        />
+      </Routes>
     </div>
   );
 }
