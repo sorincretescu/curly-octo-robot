@@ -9,9 +9,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar";
-
 import { useTranslation } from "react-i18next";
-import i18n from "../../i18n";
 
 const useStyles = makeStyles({
   root: {
@@ -54,7 +52,7 @@ const useStyles = makeStyles({
 
 const Todo = ({ loggedInUsername }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [todos, setTodos] = useState([]);
   const [clonedTodos, setClonedTodos] = useState(todos);
@@ -72,6 +70,7 @@ const Todo = ({ loggedInUsername }) => {
         params: { username: loggedInUsername }, // Pass the username as a query parameter
       })
       .then((response) => {
+        setTodos(response.data);
         setTodos(response.data);
       })
       .catch((error) => {
@@ -229,24 +228,17 @@ const Todo = ({ loggedInUsername }) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.selectDropdown}>
-        <FormControl className={classes.formControl}>
-          <Select
-            className={classes.selectLanguage}
-            onChange={handleChangeLanguage}
-          >
-            <MenuItem value={"en"}>English</MenuItem>
-            <MenuItem value={"de"}>Deutsch</MenuItem>
-          </Select>
-        </FormControl>
+      <div>
+        <Button text="English" onClick={() => i18n.changeLanguage("en")} />
+        <Button text="German" onClick={() => i18n.changeLanguage("de")} />
       </div>
       <div className={classes.header}>
         <Input
           value={todoText}
-          label={t("todo_description")}
+          label={t("todoDescription")}
           onChange={(e) => setTodoText(e.target.value)}
         />
-        <Button onClick={() => handleAddTodo()} text={t("btn_addTodo")} />
+        <Button onClick={() => handleAddTodo()} text={t("addTodo")} />
       </div>
 
       <div className={classes.searchAndFilter}>
@@ -258,10 +250,10 @@ const Todo = ({ loggedInUsername }) => {
           />
         </div>
         <div className={classes.selectDropdown}>
-          <FormControl className={classes.formControl} label="Priority">
+          <FormControl className={classes.formControl} label={t("priority")}>
             <Select
               className={classes.selectEmpty}
-              label="Priority"
+              label={t("priority")}
               value={selectedPriority}
               onChange={handlePrioritySort}
             >
@@ -273,7 +265,7 @@ const Todo = ({ loggedInUsername }) => {
                 ))}
             </Select>
           </FormControl>
-          <Button onClick={handleSortReset} text={t("btn_reset")} />
+          <Button onClick={handleSortReset} text={t("reset")} />
         </div>
       </div>
       <div className={classes.cardsContainer}>

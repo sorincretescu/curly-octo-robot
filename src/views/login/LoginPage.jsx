@@ -6,7 +6,6 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { MenuItem } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
-
 import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles({
@@ -101,9 +100,8 @@ function LoginPage({ setAuthenticated, setLoggedInUsername }) {
         </FormControl>
       </div>
       <div className={classes.header}>
-        <h1>{t("credentials")}</h1>
+        <h1> {t("enter")} </h1>
       </div>
-
       <div className={classes.loginCredentials}>
         <Input
           value={username}
@@ -120,8 +118,9 @@ function LoginPage({ setAuthenticated, setLoggedInUsername }) {
           error={errorCredentials.length}
           helperText={errorCredentials}
         />
-
-        <Button text={t("logIn")} onClick={handleLogin} />
+        <Button text={t("login")} onClick={handleLogin} />
+        <Button text="English" onClick={() => i18n.changeLanguage("en")} />
+        <Button text="German" onClick={() => i18n.changeLanguage("de")} />
       </div>
     </div>
   );
