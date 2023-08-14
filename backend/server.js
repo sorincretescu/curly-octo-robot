@@ -2,12 +2,18 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
+const User = require("../database/models/userModel");
+
 const {
   getDataFromDatabase,
   addTodo,
   updateTodo,
   deleteTodo,
-} = require("./logic");
+} = require("./logic/todoLogic");
+
+const {
+  getUsersFromDatabase,
+} = require("./logic/userLogic");
 
 const app = express();
 app.use(cors());
@@ -63,9 +69,17 @@ app.post("/api/login", async (req, res) => {
 app.get("/api/todos", async (req, res) => {
   try {
     const { username } = req.query;
-    const todos = await getDataFromDatabase(username);
+    const user = await getUsersFromDatabase(username);
 
-    res.json(todos);
+    console.log("I'm the user: ", username);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    };
+
+    console.log("here is your data: ", user.todos);
+    console.log("user: ", user);
+    res.json(user.todos ?? "no todos");
   } catch (error) {
     console.error("Error handling GET request", error);
     res.status(500).json({ message: "Internal Server Error" });
