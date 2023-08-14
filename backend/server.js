@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 const User = require("../database/models/userModel");
+const Todo = require("../database/models/todoModel");
+
 
 const {
   getDataFromDatabase,
@@ -110,9 +112,18 @@ app.delete("/api/todos/:id", async (req, res) => {
   }
 });
 
+
+
+
 app.post("/api/todos", async (req, res) => {
   try {
-    const { priority, description, subtasks } = req.body;
+    const { priority, description, subtasks, username } = req.body;
+    const rawUser = await getUsersFromDatabase(username);
+    const user = rawUser.toObject();
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
     const newTodoData = {
       priority: priority,
@@ -121,6 +132,15 @@ app.post("/api/todos", async (req, res) => {
     };
 
     await addTodo(newTodoData);
+
+    if (!user.todos) {
+      user.todos = [];
+    }
+
+    user.todos.push(newTodoData);
+    // await user.save();
+    console.log("USER: ", user.username);
+
 
     res.json({ message: "Todo added successfully" });
   } catch (error) {
