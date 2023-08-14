@@ -16,11 +16,12 @@ function App() {
       if (!authenticated) return navigate("/");
     };
     checkAuthentication();
-  }, [authenticated, navigate]);
+  }, [authenticated]);
 
   return (
     <div className="App">
-      <Routes>
+      <Todo />
+      {/* <Routes>
         <Route
           path="/"
           element={
@@ -34,7 +35,7 @@ function App() {
           path="/todo"
           element={<Todo loggedInUsername={loggedInUsername} />}
         />
-      </Routes>
+      </Routes> */}
     </div>
   );
 }
