@@ -14,12 +14,13 @@ const translationsEn = {
   no_priority: "No priority",
   todo: "TODO",
   subtasks: "Subtasks",
-  no_subtasks: "No subtasks",
+  noSubtasks: "No subtasks",
   creation_date: "Creation date",
   edit_modal: "Edit your task/todo",
   addSubtask: "Add subtask",
   btn_cancel: "Cancel",
   btn_edit: "Seidit",
+  noDescription: "No description",
 };
 const translationsDe = {
   credentials: "Geben Sie Ihre Anmeldedaten ein",
@@ -34,12 +35,14 @@ const translationsDe = {
   no_priority: "Aufgaben priorität",
   todo: "MACHEN",
   subtasks: "Teilaufgaben",
-  no_subtasks: "Keine Teilaufgaben",
+  noSubtasks: "Keine Teilaufgaben",
   creation_date: "Erstellungsdatum",
   edit_modal: "Bearbeiten Sie Ihre Aufgabe",
   addSubtask: "Unteraufgabe teilaufgaben",
   btn_cancel: "Stornieren",
   btn_edit: "Bearbeiten",
+  noDescription: "Keine Beschreibung",
+
 };
 
 i18n.use(initReactI18next).init({

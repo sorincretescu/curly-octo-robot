@@ -101,7 +101,7 @@ const Card = (props) => {
               {t("todo")} #<i>{id ?? t("noId")}</i>
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
-              {description ?? "No description"}
+              {description ?? t('noDescription')}
             </Typography>
             <Accordion expanded={isExpanded} onChange={handleExpand}>
               <AccordionSummary
@@ -121,7 +121,7 @@ const Card = (props) => {
                     ))}
                   </ul>
                 ) : (
-                  <p>{t("no_subtasks")}</p>
+                  <p>{t('noSubtasks')}</p>
                 )}
               </AccordionDetails>
             </Accordion>
