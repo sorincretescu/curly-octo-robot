@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 const userSchema = require("../../database/schemas");
 const User = mongoose.model("User", userSchema);
 
-// getUsersFromDatabase sounds like a function that gets USERS, not user
-
-const getUsersFromDatabase = async (username) => {
+const getUserFromDatabase = async (username) => {
     try {
         const data = await User.findOne({ username });
         return data ?? [];
@@ -14,4 +12,4 @@ const getUsersFromDatabase = async (username) => {
     }
 };
 
-module.exports = { getUsersFromDatabase };
+module.exports = { getUserFromDatabase };

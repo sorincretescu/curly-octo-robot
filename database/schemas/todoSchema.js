@@ -6,7 +6,8 @@ const todoSchema = new Schema({
     priority: Number,
     description: String,
     subtasks: [String],
-}, {timestamps: true}
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+}, { timestamps: true }
 );
 
 

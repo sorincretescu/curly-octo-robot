@@ -14,7 +14,7 @@ const {
 } = require("./logic/todoLogic");
 
 const {
-  getUsersFromDatabase,
+  getUserFromDatabase,
 } = require("./logic/userLogic");
 
 const app = express();
@@ -71,17 +71,12 @@ app.post("/api/login", async (req, res) => {
 app.get("/api/todos", async (req, res) => {
   try {
     const { username } = req.query;
-    const user = await getUsersFromDatabase(username);
-
-    console.log("I'm the user: ", username);
-
+    const user = await getUserFromDatabase(username);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     };
-
-    console.log("here is your data: ", user.todos);
-    console.log("user: ", user);
-    res.json(user.todos ?? "no todos");
+    res.json(user._doc.todos ?? "no todos");
+    console.log(user._doc.todos);
   } catch (error) {
     console.error("Error handling GET request", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -113,13 +108,13 @@ app.delete("/api/todos/:id", async (req, res) => {
 });
 
 
-
-
 app.post("/api/todos", async (req, res) => {
   try {
     const { priority, description, subtasks, username } = req.body;
-    const rawUser = await getUsersFromDatabase(username);
-    const user = rawUser.toObject();
+    // const rawUser = await getUserFromDatabase(username);
+    // const user = rawUser.toObject();
+
+    const user = await getUserFromDatabase(username);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -131,18 +126,21 @@ app.post("/api/todos", async (req, res) => {
       subtasks: subtasks || [],
     };
 
-    await addTodo(newTodoData);
+    await addTodo(newTodoData, user);
+    console.log("newTodoData: ", newTodoData);
 
-    if (!user.todos) {
+    if (!(user.todos && user.todos.length)) {
       user.todos = [];
     }
 
     user.todos.push(newTodoData);
-    // await user.save();
-    console.log("USER: ", user.username);
+    console.log("user's todos: ", user.todos);
+    console.log("user: ", user);
 
+    await user.save();
 
     res.json({ message: "Todo added successfully" });
+
   } catch (error) {
     console.error("Error handling POST request", error);
     res.status(500).json({ message: "Internal Server Error" });
