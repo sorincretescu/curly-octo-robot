@@ -50,7 +50,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Todo = () => {
+const Todo = ({ loggedInUsername }) => {
   const classes = useStyles();
   const { t, i18n } = useTranslation();
 
@@ -66,15 +66,16 @@ const Todo = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/todos")
+      .get("http://localhost:5000/api/todos", {
+        params: { username: loggedInUsername },
+      })
       .then((response) => {
-        setTodos(response.data);
         setTodos(response.data);
       })
       .catch((error) => {
         console.log("Error fetching data:", error);
       });
-  }, []);
+  }, [loggedInUsername]);
 
   const handleAddTodo = () => {
     if (!todoText?.length) return;
@@ -139,9 +140,18 @@ const Todo = () => {
   const uniquePriorities = [...new Set(todos.map((todo) => todo.priority))];
 
   const handleSortReset = () => {
-    setTodos(clonedTodos);
-    setSelectedPriority("");
-    setSearchTerm("");
+    axios
+      .get("http://localhost:5000/api/todos", {
+        params: { username: loggedInUsername },
+      })
+      .then((response) => {
+        setTodos(response.data);
+        setSelectedPriority("");
+        setSearchTerm("");
+      })
+      .catch((error) => {
+        console.log("Error fetching data:", error);
+      });
   };
 
   const handleSearch = (term) => {

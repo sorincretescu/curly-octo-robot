@@ -71,10 +71,10 @@ const Card = (props) => {
     subtasks,
     expanded,
   } = props.item;
-
   const classes = useStyles();
-  const [isExpanded, setIsExpanded] = useState(expanded);
+
   const { t } = useTranslation();
+  const [isExpanded, setIsExpanded] = useState(expanded);
 
   const handleExpand = () => {
     setIsExpanded((prevExpended) => !prevExpended);
@@ -97,8 +97,7 @@ const Card = (props) => {
               {t("priority")} <i>{priority ?? t("noPriority")}</i>
             </Typography>
             <Typography variant="h5" component="h2">
-              {t("todo")}
-              <i>{id ?? t("noId")}</i>
+              {t("todo")} #<i>{id ?? t("noId")}</i>
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
               {description ?? t("noDescription")}

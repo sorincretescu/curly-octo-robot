@@ -39,8 +39,9 @@ const Modal = (props) => {
   const [subtaskText, setSubtaskText] = useState(subtasks);
   const [newSubtaskText, setNewSubtaskText] = useState("");
 
-  const classes = useStyles();
   const { t } = useTranslation();
+
+  const classes = useStyles();
 
   useEffect(() => {
     setTodoText(todoDescription);
