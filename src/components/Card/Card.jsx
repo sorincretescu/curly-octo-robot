@@ -127,14 +127,14 @@ const Card = (props) => {
             </Accordion>
           </div>
           <div className={classes.contentRight}>
-            <Typography
+            {/* <Typography
               className={classes.date}
               color="textSecondary"
               gutterBottom
             >
               {t("creation_date")}:{" "}
               <i>{createdAt.split("T")[0] ?? t("noDate")}</i>
-            </Typography>
+            </Typography> */}
             <div className={classes.actions}>
               <EditIcon
                 aria-label={t("edit")}
