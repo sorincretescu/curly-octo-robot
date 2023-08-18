@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CardMUI from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -10,7 +9,7 @@ import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles({
   root: {
@@ -95,13 +94,14 @@ const Card = (props) => {
               color="textSecondary"
               gutterBottom
             >
-              {t('priority')} <i>{priority ?? t('noPriority')}</i>
+              {t("priority")} <i>{priority ?? t("noPriority")}</i>
             </Typography>
             <Typography variant="h5" component="h2">
-              {t('todo')}<i>{id ?? t('noId')}</i>
+              {t("todo")}
+              <i>{id ?? t("noId")}</i>
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
-              {description ?? t('noDescription')}
+              {description ?? t("noDescription")}
             </Typography>
             <Accordion expanded={isExpanded} onChange={handleExpand}>
               <AccordionSummary
@@ -109,7 +109,9 @@ const Card = (props) => {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography className={classes.heading}>{t('subtasks')}</Typography>
+                <Typography className={classes.heading}>
+                  {t("subtasks")}
+                </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 {subtasks?.length ? (
@@ -119,7 +121,7 @@ const Card = (props) => {
                     ))}
                   </ul>
                 ) : (
-                  <p>{t('noSubtasks')}</p>
+                  <p>{t("noSubtasks")}</p>
                 )}
               </AccordionDetails>
             </Accordion>
@@ -130,16 +132,17 @@ const Card = (props) => {
               color="textSecondary"
               gutterBottom
             >
-              {t('creationDate')} <i>{creation_date ?? t('noDate')}</i>
+              {t("creation_date")}:{" "}
+              <i>{createdAt.split("T")[0] ?? t("noDate")}</i>
             </Typography>
             <div className={classes.actions}>
               <EditIcon
-                aria-label={t('edit')}
+                aria-label={t("edit")}
                 className={classes.icon}
                 onClick={() => handleEdit(id)}
               />
               <DeleteForeverIcon
-                aria-label={t('delete')}
+                aria-label={t("delete")}
                 className={classes.icon}
                 onClick={() => handleDelete(id)}
               />

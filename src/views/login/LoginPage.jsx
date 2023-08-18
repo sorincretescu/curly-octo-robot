@@ -6,7 +6,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { MenuItem } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles({
   root: {
@@ -37,8 +37,6 @@ const useStyles = makeStyles({
 });
 
 function LoginPage({ setAuthenticated }) {
-
-  const { t, i18n } = useTranslation();
   const classes = useStyles();
   const { t, i18n } = useTranslation();
 
@@ -87,21 +85,23 @@ function LoginPage({ setAuthenticated }) {
         </FormControl>
       </div>
       <div className={classes.header}>
-        <h1> {t('enter')} </h1>
+        <h1> {t("credentials")} </h1>
       </div>
       <div className={classes.loginCredentials}>
-        <Input value={username} label={t('username')} onChange={handleUsername} />
+        <Input
+          value={username}
+          label={t("username")}
+          onChange={handleUsername}
+        />
         <Input
           value={pass}
-          label={t('password')}
+          label={t("password")}
           type="password"
           onChange={handlePass}
           error={errorPass.length}
           helperText={errorPass}
         />
-        <Button text={t('login')} onClick={handleLogin} />
-        <Button text='English' onClick={() => i18n.changeLanguage('en')} />
-        <Button text='German' onClick={() => i18n.changeLanguage('de')} />
+        <Button text={t("logIn")} onClick={handleLogin} />
       </div>
     </div>
   );
