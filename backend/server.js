@@ -1,16 +1,24 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 require("dotenv").config();
-const { getDataFromDatabase, addTodo , updateTodo, deleteTodo} = require("./logic");
+const {
+  getDataFromDatabase,
+  addTodo,
+  updateTodo,
+  deleteTodo,
+} = require("./logic");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 const uri = process.env.URI ?? "";
 const port = process.env.PORT;
-
 
 const mongooseOptions = {
   useNewUrlParser: true,
@@ -44,29 +52,29 @@ app.get("/api/todos", async (req, res) => {
   }
 });
 
-  app.put("/api/todos/:id", async (req, res) => {
-    try {
-      const {id} = req.params;
-      const updatedTodo = req.body;
-      const result = await updateTodo(id, updatedTodo);
-      res.json(result);
-    } catch (error) {
-      console.error("Error updating todo item: ", error);
-      res.status(500).json({message: "Internal Server Error"});
-    };
-  });
+app.put("/api/todos/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedTodo = req.body;
+    const result = await updateTodo(id, updatedTodo);
+    res.json(result);
+  } catch (error) {
+    console.error("Error updating todo item: ", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 
-  app.delete("/api/todos/:id", async (req, res) => {
-    try {
-      const {id} = req.params;
-      const todo = req.body;
-      const result = await deleteTodo(id, todo);
-      res.json(result);
-    } catch (error) {
-      console.error("Error deleting todo item: " , error);
-      res.status(500).json({message:"Internal Server Error"});
-    };
-  });
+app.delete("/api/todos/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const todo = req.body;
+    const result = await deleteTodo(id, todo);
+    res.json(result);
+  } catch (error) {
+    console.error("Error deleting todo item: ", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 
 app.post("/api/todos", async (req, res) => {
   try {
@@ -77,8 +85,16 @@ app.post("/api/todos", async (req, res) => {
       description: description,
       subtasks: subtasks || [],
     };
-
-    await addTodo(newTodoData);
+    console.log("data", {
+      priority: 2,
+      description: "tets",
+      subtasks: ["sub1"],
+    });
+    await addTodo({
+      priority: 2,
+      description: "tets",
+      subtasks: ["sub1"],
+    });
 
     res.json({ message: "Todo added successfully" });
   } catch (error) {

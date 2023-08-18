@@ -10,23 +10,22 @@ const getDataFromDatabase = async () => {
     console.log("Error fetching data from the database", error);
     throw error;
   }
-}
-
+};
 
 const addTodo = async (todoData) => {
   try {
-    const newTodo = new Todo({
-      priority: todoData.priority,
-      description: todoData.description,
-      subtasks: todoData.subtasks || [],
-    });
+    // const newTodo = new Todo();
+    // newTodo.priority = 1;
+    // newTodo.description = "Test description";
+    // newTodo.subtasks = ["Subtask 1", "Subtask 2"];
+    await Todo.create(todoData);
 
-    await newTodo.save();
+    console.log(todoData);
   } catch (error) {
     console.error("Error adding data to the database:", error);
     throw error;
   }
-}
+};
 
 const updateTodo = async (id, updatedTodo) => {
   try {
@@ -49,7 +48,7 @@ const deleteTodo = async (id, todo) => {
   } catch (error) {
     console.log("Error deleting todo in the database", error);
     throw error;
-  };
+  }
 };
 
 module.exports = { getDataFromDatabase, updateTodo, deleteTodo, addTodo };

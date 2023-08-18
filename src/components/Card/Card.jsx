@@ -132,8 +132,8 @@ const Card = (props) => {
               color="textSecondary"
               gutterBottom
             >
-              {t("creation_date")}:{" "}
-              <i>{createdAt.split("T")[0] ?? t("noDate")}</i>
+              {/* {t("creation_date")}:{" "}
+              <i>{createdAt.split("T")[0] ?? t("noDate")}</i> */}
             </Typography>
             <div className={classes.actions}>
               <EditIcon
