@@ -21,6 +21,8 @@ const translationsEn = {
   btn_cancel: "Cancel",
   btn_edit: "Seidit",
   noDescription: "No description",
+  btn_register: "Register",
+  btn_logout: "Log out",
 };
 const translationsDe = {
   credentials: "Geben Sie Ihre Anmeldedaten ein",
@@ -42,7 +44,8 @@ const translationsDe = {
   btn_cancel: "Stornieren",
   btn_edit: "Bearbeiten",
   noDescription: "Keine Beschreibung",
-
+  btn_register: "Registrieren",
+  btn_logout: "Ausloggen",
 };
 
 i18n.use(initReactI18next).init({

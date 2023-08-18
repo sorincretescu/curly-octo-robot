@@ -34,11 +34,12 @@ const Modal = (props) => {
     subtasks,
   } = props;
 
-  const { t } = useTranslation();
   const [todoText, setTodoText] = useState(todoDescription);
   const [priority, setPriority] = useState(defaultPriority);
   const [subtaskText, setSubtaskText] = useState(subtasks);
   const [newSubtaskText, setNewSubtaskText] = useState("");
+
+  const { t } = useTranslation();
 
   const classes = useStyles();
 

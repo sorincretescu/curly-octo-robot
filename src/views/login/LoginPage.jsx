@@ -100,7 +100,7 @@ function LoginPage({ setAuthenticated, setLoggedInUsername }) {
         </FormControl>
       </div>
       <div className={classes.header}>
-        <h1>{t("credentials")}</h1>
+        <h1> {t("credentials")} </h1>
       </div>
 
       <div className={classes.loginCredentials}>
