@@ -100,27 +100,27 @@ function LoginPage({ setAuthenticated, setLoggedInUsername }) {
         </FormControl>
       </div>
       <div className={classes.header}>
-        <h1> {t("credentials")} </h1>
+        <h1> {t("Enter your credentials")} </h1>
       </div>
 
       <div className={classes.loginCredentials}>
         <Input
           value={username}
-          label={t("username")}
+          label={t("Username")}
           onChange={handleUsername}
           error={errorCredentials.length}
           helperText={errorCredentials}
         />
         <Input
           value={password}
-          label={t("password")}
+          label={t("Password")}
           type="password"
           onChange={handlePassword}
           error={errorCredentials.length}
           helperText={errorCredentials}
         />
 
-        <Button text={t("logIn")} onClick={handleLogin} />
+        <Button text={t("Log in")} onClick={handleLogin} />
       </div>
     </div>
   );

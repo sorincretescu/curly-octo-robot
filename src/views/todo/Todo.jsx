@@ -241,10 +241,10 @@ const Todo = ({ loggedInUsername }) => {
       <div className={classes.header}>
         <Input
           value={todoText}
-          label={t("todo_description")}
+          label={t("Todo description")}
           onChange={(e) => setTodoText(e.target.value)}
         />
-        <Button onClick={() => handleAddTodo()} text={t("btn_addTodo")} />
+        <Button onClick={() => handleAddTodo()} text={t("Add TODO")} />
       </div>
 
       <div className={classes.searchAndFilter}>
@@ -252,14 +252,14 @@ const Todo = ({ loggedInUsername }) => {
           <SearchBar
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
-            label={t("searchInput")}
+            label={t("Search")}
           />
         </div>
         <div className={classes.selectDropdown}>
-          <FormControl className={classes.formControl} label="Priority">
+          <FormControl className={classes.formControl} label={t("Priority")}>
             <Select
               className={classes.selectEmpty}
-              label="Priority"
+              label={t("Priority")}
               value={selectedPriority}
               onChange={handlePrioritySort}
             >
@@ -271,7 +271,7 @@ const Todo = ({ loggedInUsername }) => {
                 ))}
             </Select>
           </FormControl>
-          <Button onClick={handleSortReset} text={t("btn_reset")} />
+          <Button onClick={handleSortReset} text={t("Reset")} />
         </div>
       </div>
       <div className={classes.cardsContainer}>

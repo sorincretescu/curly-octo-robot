@@ -79,11 +79,11 @@ const Modal = (props) => {
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle id="alert-dialog-slide-title">{t("editTask")}</DialogTitle>
+      <DialogTitle id="alert-dialog-slide-title">{t("Edit")}</DialogTitle>
       <DialogContent>
         <Input
           value={todoText}
-          label={t("todoDescription")}
+          label={t("Todo description")}
           onChange={(e) => setTodoText(e.target.value)}
           focused
         />
@@ -97,27 +97,27 @@ const Modal = (props) => {
           <Input
             key={index}
             value={subtaskText[index]}
-            label={t("subtasks")}
+            label={t("Subtasks")}
             onChange={(e) => handleSubtasksChange(index, e.target.value)}
           />
         ))}
 
         <Input
           value={newSubtaskText}
-          label={t("addSubtask")}
+          label={t("Add subtask")}
           onChange={(e) => setNewSubtaskText(e.target.value)}
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} text={t("cancel")} />
+        <Button onClick={handleClose} text={t("Cancel")} />
         <Button
           onClick={() => {
             handleAddNewSubtask(newSubtaskText);
             setNewSubtaskText("");
           }}
-          text={t("addSubtask")}
+          text={t("Add subtask")}
         />
-        <Button onClick={handleSaveClick} text={t("seidit")} />
+        <Button onClick={handleSaveClick} text={t("Save")} />
       </DialogActions>
     </Dialog>
   );
