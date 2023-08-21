@@ -7,9 +7,11 @@ import Modal from "../../components/Modal";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import Header from "../../components/Header";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -50,9 +52,10 @@ const useStyles = makeStyles({
   },
 });
 
-const Todo = ({ loggedInUsername }) => {
+const Todo = ({ loggedInUsername, setAuthenticated }) => {
   const classes = useStyles();
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
 
   const [todos, setTodos] = useState([]);
   const [clonedTodos, setClonedTodos] = useState(todos);
@@ -225,8 +228,14 @@ const Todo = ({ loggedInUsername }) => {
     i18n.changeLanguage(e.target.value);
   };
 
+  const handleClick = () => {
+    setAuthenticated(false);
+    navigate("/");
+  };
+
   return (
     <div className={classes.root}>
+      <Header text={t("btn_logout")} onClick={handleClick} />
       <div className={classes.selectDropdown}>
         <FormControl className={classes.formControl}>
           <Select

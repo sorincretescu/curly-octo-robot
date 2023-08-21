@@ -20,7 +20,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* <Todo /> */}
       <Routes>
         <Route
           path="/"
@@ -33,7 +32,12 @@ function App() {
         />
         <Route
           path="/todo"
-          element={<Todo loggedInUsername={loggedInUsername} />}
+          element={
+            <Todo
+              loggedInUsername={loggedInUsername}
+              setAuthenticated={setAuthenticated}
+            />
+          }
         />
       </Routes>
     </div>

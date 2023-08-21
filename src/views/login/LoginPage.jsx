@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import FormControl from "@material-ui/core/FormControl";
+import Header from "../../components/Header";
 import Select from "@material-ui/core/Select";
 import { MenuItem } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
@@ -88,39 +89,42 @@ function LoginPage({ setAuthenticated, setLoggedInUsername }) {
 
   return (
     <div className={classes.root}>
-      <div className={classes.selectDropdown}>
-        <FormControl className={classes.formControl}>
-          <Select
-            className={classes.selectEmpty}
-            onChange={handleChangeLanguage}
-          >
-            <MenuItem value={"en"}>English</MenuItem>
-            <MenuItem value={"de"}>Deutsch</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-      <div className={classes.header}>
-        <h1> {t("credentials")} </h1>
-      </div>
+      <Header text={t("btn_register")} />
+      <div className={classes.content}>
+        <div className={classes.selectDropdown}>
+          <FormControl className={classes.formControl}>
+            <Select
+              className={classes.selectEmpty}
+              onChange={handleChangeLanguage}
+            >
+              <MenuItem value={"en"}>English</MenuItem>
+              <MenuItem value={"de"}>Deutsch</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+        <div className={classes.header}>
+          <h1> {t("credentials")} </h1>
+        </div>
 
-      <div className={classes.loginCredentials}>
-        <Input
-          value={username}
-          label={t("username")}
-          onChange={handleUsername}
-          error={errorCredentials.length}
-          helperText={errorCredentials}
-        />
-        <Input
-          value={password}
-          label={t("password")}
-          type="password"
-          onChange={handlePassword}
-          error={errorCredentials.length}
-          helperText={errorCredentials}
-        />
+        <div className={classes.loginCredentials}>
+          <Input
+            value={username}
+            label={t("username")}
+            onChange={handleUsername}
+            error={errorCredentials.length}
+            helperText={errorCredentials}
+          />
+          <Input
+            value={password}
+            label={t("password")}
+            type="password"
+            onChange={handlePassword}
+            error={errorCredentials.length}
+            helperText={errorCredentials}
+          />
 
-        <Button text={t("logIn")} onClick={handleLogin} />
+          <Button text={t("logIn")} onClick={handleLogin} />
+        </div>
       </div>
     </div>
   );
