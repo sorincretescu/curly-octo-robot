@@ -2,9 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
-const User = require("../database/models/userModel");
-const Todo = require("../database/models/todoModel");
-
 
 const {
   getDataFromDatabase,
@@ -70,6 +67,8 @@ app.post("/api/login", async (req, res) => {
 
 app.get("/api/todos", async (req, res) => {
   try {
+    const data = await getDataFromDatabase();
+    res.json(data);
     const { username } = req.query;
     const user = await getUserFromDatabase(username);
     if (!user) {
@@ -126,7 +125,7 @@ app.post("/api/todos", async (req, res) => {
       subtasks: subtasks || [],
     };
 
-    await addTodo(newTodoData, user);
+    await addTodo(newTodoData);
     console.log("newTodoData: ", newTodoData);
 
     if (!(user.todos && user.todos.length)) {
@@ -137,7 +136,9 @@ app.post("/api/todos", async (req, res) => {
     console.log("user's todos: ", user.todos);
     console.log("user: ", user);
 
-    await user.save();
+    async () => {
+      await user.save();
+    }
 
     res.json({ message: "Todo added successfully" });
 

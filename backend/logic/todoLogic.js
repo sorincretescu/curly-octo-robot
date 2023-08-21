@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
-const todoSchema = require("../../database/schemas");
+const todoSchema = require("../../database/schemas/todoSchema");
 const Todo = mongoose.model("Todo", todoSchema);
 
-const getDataFromDatabase = async (username) => {
+const getDataFromDatabase = async () => {
   try {
-    const data = await Todo.find({ username });
+    const data = await Todo.find({});
     return data ?? [];
   } catch (error) {
     console.log("Error fetching data from the database", error);
@@ -12,13 +12,12 @@ const getDataFromDatabase = async (username) => {
   }
 };
 
-const addTodo = async (todoData, user) => {
+const addTodo = async (todoData) => {
   try {
     const newTodo = new Todo({
       priority: todoData.priority,
       description: todoData.description,
       subtasks: todoData.subtasks || [],
-      user: user._id,
     });
 
     await newTodo.save();

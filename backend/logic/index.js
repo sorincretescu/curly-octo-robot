@@ -1,3 +1,3 @@
 const todoLogic = require('./todoLogic');
-
-module.exports = todoLogic;
+const userLogic = require('./userLogic');
+module.exports = { todoLogic, userLogic };
