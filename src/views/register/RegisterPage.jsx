@@ -50,7 +50,7 @@ function RegisterPage() {
         };
 
         try {
-            await axios.post("http://localhost:5000/api/users/register", user);
+            await axios.post("http://localhost:5000/api/register", user);
         }
         catch (error) {
             console.error("Error registering user:", error);

@@ -9,6 +9,11 @@ const {
   deleteTodo,
 } = require("./logic");
 
+const {
+  addUser
+} = require("./logic/userLogic");
+const { restart } = require("nodemon");
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -112,6 +117,23 @@ app.post("/api/todos", async (req, res) => {
   } catch (error) {
     console.error("Error handling POST request", error);
     res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+app.post("/api/register", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    const newUserData = {
+      username: username,
+      password: password,
+    };
+
+    await addUser(newUserData);
+    res.json({ message: "User registered successfully" });
+  } catch (error) {
+    console.error("Error handling POST request ", error);
+    restart.status(500).json({ message: "Internal Server Error" });
   }
 });
 
