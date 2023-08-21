@@ -9,8 +9,6 @@ function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [loggedInUsername, setLoggedInUsername] = useState("");
 
-
-
   return (
     <div className="App">
       <Routes>

@@ -30,7 +30,6 @@ function RegisterPage() {
     const classes = useStyles();
     const { t, i18n } = useTranslation();
 
-
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
