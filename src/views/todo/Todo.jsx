@@ -52,7 +52,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Todo = ({ loggedInUsername, setAuthenticated }) => {
+const Todo = ({ loggedInUsername }) => {
   const classes = useStyles();
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -228,14 +228,8 @@ const Todo = ({ loggedInUsername, setAuthenticated }) => {
     i18n.changeLanguage(e.target.value);
   };
 
-  const handleClick = () => {
-    setAuthenticated(false);
-    navigate("/");
-  };
-
   return (
     <div className={classes.root}>
-      <Header text={t("btn_logout")} onClick={handleClick} />
       <div className={classes.selectDropdown}>
         <FormControl className={classes.formControl}>
           <Select

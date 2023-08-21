@@ -2,6 +2,7 @@ import "./App.css";
 import Todo from "./views/todo/Todo";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./views/login/LoginPage";
+import Header from "./components/Header/Header";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -20,6 +21,9 @@ function App() {
 
   return (
     <div className="App">
+      <div className="header">
+        <Header />
+      </div>
       <Routes>
         <Route
           path="/"
@@ -32,12 +36,7 @@ function App() {
         />
         <Route
           path="/todo"
-          element={
-            <Todo
-              loggedInUsername={loggedInUsername}
-              setAuthenticated={setAuthenticated}
-            />
-          }
+          element={<Todo loggedInUsername={loggedInUsername} />}
         />
       </Routes>
     </div>

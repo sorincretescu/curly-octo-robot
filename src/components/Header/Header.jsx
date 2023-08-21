@@ -1,20 +1,28 @@
+import { useTranslation } from "react-i18next";
 import Button from "../../components/Button";
-import { makeStyles } from "@material-ui/core/styles";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const useStyles = makeStyles({
-  header: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "end",
-  },
-});
+const Header = () => {
+  const location = useLocation();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
 
-const Header = (props) => {
-  const classes = useStyles();
+  const isLoginPage = location.pathname === "/";
+  const isTodoPage = location.pathname === "/todo";
+
+  const handleRegister = () => {
+    navigate("/register");
+  };
+
+  const handleLogout = () => {
+    navigate("/");
+  };
 
   return (
-    <div className={classes.header}>
-      <Button text={props.text} onClick={props.onClick} />
+    <div>
+      {isLoginPage && <Button text={t("Register")} onClick={handleRegister} />}
+      {isTodoPage && <Button text={t("Log out")} onClick={handleLogout} />}
     </div>
   );
 };

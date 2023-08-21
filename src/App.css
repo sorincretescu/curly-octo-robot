@@ -1,11 +1,23 @@
 .App {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: burlywood;
-    font-family: 'Roboto', sans-serif;
-    *::-webkit-scrollbar{
-        display: none;
-    }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: burlywood;
+  font-family: "Roboto", sans-serif;
+  *::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+
+  background-color: burlywood;
+  font-family: "Roboto", sans-serif;
+  *::-webkit-scrollbar {
+    display: none;
+  }
 }
