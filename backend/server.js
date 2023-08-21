@@ -124,6 +124,14 @@ app.post("/api/register", async (req, res) => {
   try {
     const { username, password } = req.body;
 
+    if (!username || !password) {
+      return res.status(400).json({ message: "Username and password are required." });
+    };
+
+    if (username.length < 4 || password.length < 4) {
+      return res.status(400).json({ message: "Username and password need to be at least 4 characters long." });
+    };
+
     const newUserData = {
       username: username,
       password: password,
