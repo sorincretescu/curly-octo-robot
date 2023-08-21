@@ -5,25 +5,25 @@ import LoginPage from "./views/login/LoginPage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import RegisterPage from "./views/register/RegisterPage";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [loggedInUsername, setLoggedInUsername] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const checkAuthentication = () => {
-      if (!authenticated) return navigate("/");
-    };
-    checkAuthentication();
-  }, [authenticated]);
+  // useEffect(() => {
+  //   const checkAuthentication = () => {
+  //     if (!authenticated) return navigate("/login");
+  //   };
+  //   checkAuthentication();
+  // }, [authenticated]);
 
   return (
     <div className="App">
-      {/* <Todo /> */}
       <Routes>
         <Route
-          path="/"
+          path="/login"
           element={
             <LoginPage
               setAuthenticated={setAuthenticated}
@@ -31,6 +31,11 @@ function App() {
             />
           }
         />
+        <Route
+          path="/register"
+          element={
+            <RegisterPage />
+          } />
         <Route
           path="/todo"
           element={<Todo loggedInUsername={loggedInUsername} />}
