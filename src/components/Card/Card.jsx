@@ -9,7 +9,6 @@ import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-
 import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles({
@@ -95,13 +94,13 @@ const Card = (props) => {
               color="textSecondary"
               gutterBottom
             >
-              {t("priority")}: <i>{priority ?? t("no_priority")}</i>
+              {t("priority")} <i>{priority ?? t("noPriority")}</i>
             </Typography>
             <Typography variant="h5" component="h2">
               {t("todo")} #<i>{id ?? t("noId")}</i>
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
-              {description ?? t('noDescription')}
+              {description ?? t("noDescription")}
             </Typography>
             <Accordion expanded={isExpanded} onChange={handleExpand}>
               <AccordionSummary
@@ -121,26 +120,28 @@ const Card = (props) => {
                     ))}
                   </ul>
                 ) : (
-                  <p>{t('noSubtasks')}</p>
+                  <p>{t("noSubtasks")}</p>
                 )}
               </AccordionDetails>
             </Accordion>
           </div>
           <div className={classes.contentRight}>
-            <Typography
+            {/* <Typography
               className={classes.date}
               color="textSecondary"
               gutterBottom
             >
               {t("creation_date")}:{" "}
-              <i>{createdAt.split("T")[0] ?? "xx.xx.xxxx"}</i>
-            </Typography>
+              <i>{createdAt.split("T")[0] ?? t("noDate")}</i>
+            </Typography> */}
             <div className={classes.actions}>
               <EditIcon
+                aria-label={t("edit")}
                 className={classes.icon}
                 onClick={() => handleEdit(id)}
               />
               <DeleteForeverIcon
+                aria-label={t("delete")}
                 className={classes.icon}
                 onClick={() => handleDelete(id)}
               />
