@@ -89,7 +89,6 @@ function LoginPage({ setAuthenticated, setLoggedInUsername }) {
 
   return (
     <div className={classes.root}>
-      {/* <Header text={t("btn_register")} /> */}
       <div className={classes.content}>
         <div className={classes.selectDropdown}>
           <FormControl className={classes.formControl}>
