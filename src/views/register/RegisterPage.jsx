@@ -52,7 +52,6 @@ function RegisterPage() {
 
         try {
             await axios.post("http://localhost:5000/api/users/register", user);
-            console.log("User registered successfully");
         }
         catch (error) {
             console.error("Error registering user:", error);
