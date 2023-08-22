@@ -75,16 +75,16 @@ function RegisterPage() {
                 </FormControl>
                 <Input
                     value={username}
-                    label={t("username")}
+                    label={t("Username")}
                     onChange={handleUsername}
                 />
                 <Input
                     value={password}
-                    label={t("password")}
+                    label={t("Password")}
                     type="password"
                     onChange={handlePassword}
                 />
-                <Button text={t("register")} onClick={handleRegister} />
+                <Button text={t("Register")} onClick={handleRegister} />
 
             </div>
         </div>
