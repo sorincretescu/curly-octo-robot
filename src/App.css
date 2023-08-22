@@ -14,7 +14,7 @@
 .header {
   display: flex;
   justify-content: flex-end;
-
+  margin-left: 708px;
   background-color: burlywood;
   font-family: "Roboto", sans-serif;
   *::-webkit-scrollbar {

@@ -8,7 +8,8 @@ const Header = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const isLoginPage = location.pathname === "/";
+  const isLoginPage = location.pathname === "/login";
+  const isRegisterPage = location.pathname === "/register";
   const isTodoPage = location.pathname === "/todo";
 
   const handleRegister = () => {
@@ -16,12 +17,15 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    navigate("/");
+    navigate("/login");
   };
 
   return (
     <div>
       {isLoginPage && <Button text={t("Register")} onClick={handleRegister} />}
+      {isRegisterPage && (
+        <Button text={t("Home page")} onClick={handleLogout} />
+      )}
       {isTodoPage && <Button text={t("Log out")} onClick={handleLogout} />}
     </div>
   );
