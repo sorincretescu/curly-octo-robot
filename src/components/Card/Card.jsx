@@ -94,13 +94,13 @@ const Card = (props) => {
               color="textSecondary"
               gutterBottom
             >
-              {t("priority")} <i>{priority ?? t("noPriority")}</i>
+              {t("Priority")} <i>{priority ?? t("No priority")}</i>
             </Typography>
             <Typography variant="h5" component="h2">
-              {t("todo")} #<i>{id ?? t("noId")}</i>
+              {t("TODO")} #<i>{id ?? t("No id")}</i>
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
-              {description ?? t("noDescription")}
+              {description ?? t("No description")}
             </Typography>
             <Accordion expanded={isExpanded} onChange={handleExpand}>
               <AccordionSummary
@@ -109,7 +109,7 @@ const Card = (props) => {
                 id="panel1a-header"
               >
                 <Typography className={classes.heading}>
-                  {t("subtasks")}
+                  {t("Subtasks")}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
@@ -120,28 +120,28 @@ const Card = (props) => {
                     ))}
                   </ul>
                 ) : (
-                  <p>{t("noSubtasks")}</p>
+                  <p>{t("No subtasks")}</p>
                 )}
               </AccordionDetails>
             </Accordion>
           </div>
           <div className={classes.contentRight}>
-            {/* <Typography
+            <Typography
               className={classes.date}
               color="textSecondary"
               gutterBottom
             >
-              {t("creation_date")}:{" "}
-              <i>{createdAt.split("T")[0] ?? t("noDate")}</i>
-            </Typography> */}
+              {t("Creation date")}:{" "}
+              <i>{createdAt.split("T")[0] ?? t("No date")}</i>
+            </Typography>
             <div className={classes.actions}>
               <EditIcon
-                aria-label={t("edit")}
+                aria-label={t("Edit")}
                 className={classes.icon}
                 onClick={() => handleEdit(id)}
               />
               <DeleteForeverIcon
-                aria-label={t("delete")}
+                aria-label={t("Delete")}
                 className={classes.icon}
                 onClick={() => handleDelete(id)}
               />

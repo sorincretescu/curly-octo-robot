@@ -89,41 +89,39 @@ function LoginPage({ setAuthenticated, setLoggedInUsername }) {
 
   return (
     <div className={classes.root}>
-      <div className={classes.content}>
-        <div className={classes.selectDropdown}>
-          <FormControl className={classes.formControl}>
-            <Select
-              className={classes.selectEmpty}
-              onChange={handleChangeLanguage}
-            >
-              <MenuItem value={"en"}>English</MenuItem>
-              <MenuItem value={"de"}>Deutsch</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <div className={classes.header}>
-          <h1> {t("credentials")} </h1>
-        </div>
+      <div className={classes.selectDropdown}>
+        <FormControl className={classes.formControl}>
+          <Select
+            className={classes.selectEmpty}
+            onChange={handleChangeLanguage}
+          >
+            <MenuItem value={"en"}>English</MenuItem>
+            <MenuItem value={"de"}>Deutsch</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+      <div className={classes.header}>
+        <h1> {t("Enter your credentials")} </h1>
+      </div>
 
-        <div className={classes.loginCredentials}>
-          <Input
-            value={username}
-            label={t("username")}
-            onChange={handleUsername}
-            error={errorCredentials.length}
-            helperText={errorCredentials}
-          />
-          <Input
-            value={password}
-            label={t("password")}
-            type="password"
-            onChange={handlePassword}
-            error={errorCredentials.length}
-            helperText={errorCredentials}
-          />
+      <div className={classes.loginCredentials}>
+        <Input
+          value={username}
+          label={t("Username")}
+          onChange={handleUsername}
+          error={errorCredentials.length}
+          helperText={errorCredentials}
+        />
+        <Input
+          value={password}
+          label={t("Password")}
+          type="password"
+          onChange={handlePassword}
+          error={errorCredentials.length}
+          helperText={errorCredentials}
+        />
 
-          <Button text={t("logIn")} onClick={handleLogin} />
-        </div>
+        <Button text={t("Log in")} onClick={handleLogin} />
       </div>
     </div>
   );
