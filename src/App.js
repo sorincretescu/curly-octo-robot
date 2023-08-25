@@ -3,12 +3,10 @@ import Todo from "./views/todo/Todo";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./views/login/LoginPage";
 import Header from "./components/Header/Header";
-import { createContext, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import RegisterPage from "./views/register/RegisterPage";
 import { CssBaseline, ThemeProvider, createTheme } from "@material-ui/core";
-import { amber, purple, grey, deepOrange } from "@material-ui/core/colors";
-
-export const ThemeContext = createContext(null);
+import { grey } from "@material-ui/core/colors";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
