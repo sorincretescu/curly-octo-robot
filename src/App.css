@@ -4,18 +4,37 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: burlywood;
+
   font-family: "Roboto", sans-serif;
   *::-webkit-scrollbar {
     display: none;
   }
 }
 
+#light {
+  background-color: burlywood;
+}
+
+#dark {
+  background-color: #353535;
+}
+
+#light .MuiTextField-root {
+  background: white;
+}
+
+#dark .MuiTextField-root {
+  background: #afafaf;
+}
+
+#dark .MuiInputBase-root {
+  background: #afafaf;
+}
+
 .header {
   display: flex;
   justify-content: flex-end;
-
-  background-color: burlywood;
+  margin-left: 575px;
   font-family: "Roboto", sans-serif;
   *::-webkit-scrollbar {
     display: none;

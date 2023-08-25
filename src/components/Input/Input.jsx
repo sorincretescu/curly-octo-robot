@@ -2,11 +2,9 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
-const useStyles = makeStyles((theme) => ({
-  root: {},
+const useStyles = makeStyles(() => ({
   textField: {
     margin: "8px",
-    backgroundColor: "white",
     borderRadius: "8px",
     flex: 1,
     minWidth: "355px",
