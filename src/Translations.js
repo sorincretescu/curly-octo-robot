@@ -24,6 +24,11 @@ export const translationsEn = {
   Delete: "Delete",
   Save: "Save",
   "Home page": "Home page",
+  "Dark mode": "Dark mode",
+  "Light mode": "Light mode",
+  Yes: "Yes",
+  No: "No",
+  "Are you sure you want to log out?": "Are you sure you want to log out?",
 };
 
 export const translationsDe = {
@@ -52,4 +57,10 @@ export const translationsDe = {
   Delete: "Löschen",
   Save: "Speichern",
   "Home page": "Startseite",
+  "Dark mode": "Dunkelmodus",
+  "Light mode": "Lichtmodus",
+  Yes: "Ja",
+  No: "Nein",
+  "Are you sure you want to log out?":
+    "Sind Sie sicher, dass Sie sich abmelden möchten?",
 };

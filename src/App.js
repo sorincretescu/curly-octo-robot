@@ -3,39 +3,80 @@ import Todo from "./views/todo/Todo";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./views/login/LoginPage";
 import Header from "./components/Header/Header";
-import { useState } from "react";
+import { createContext, useMemo, useState } from "react";
 import RegisterPage from "./views/register/RegisterPage";
+import { CssBaseline, ThemeProvider, createTheme } from "@material-ui/core";
+import { amber, purple, grey, deepOrange } from "@material-ui/core/colors";
+
+export const ThemeContext = createContext(null);
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [loggedInUsername, setLoggedInUsername] = useState("");
 
-  return (
-    <div className="App">
-      <div className="header">
-        <Header />
-      </div>
-      <Routes>
-        <Route
-          path="/login"
-          element={
-            <LoginPage
-              setAuthenticated={setAuthenticated}
-              setLoggedInUsername={setLoggedInUsername}
-            />
+  const [mode, setMode] = useState("light");
+
+  const getDesignTokens = (mode) => ({
+    palette: {
+      mode,
+      ...(mode === "light"
+        ? {
+            primary: {
+              main: grey[900],
+            },
+
+            divider: "#afafaf",
+            text: {
+              primary: grey[900],
+              secondary: grey[800],
+            },
           }
-        />
-        <Route
-          path="/register"
-          element={
-            <RegisterPage />
-          } />
-        <Route
-          path="/todo"
-          element={<Todo loggedInUsername={loggedInUsername} />}
-        />
-      </Routes>
-    </div>
+        : {
+            primary: {
+              main: "#ffffff",
+            },
+
+            background: {
+              default: grey[900],
+              paper: "#898989",
+            },
+
+            text: {
+              primary: "#fff",
+              secondary: "#fff",
+            },
+          }),
+    },
+  });
+
+  const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+  const toggleTheme = () => {
+    setMode((curr) => (curr === "light" ? "dark" : "light"));
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline> </CssBaseline>
+      <div className="App" id={mode}>
+        <Header onChangeTheme={toggleTheme} checked={mode === "dark"} />
+        <Routes>
+          <Route
+            path="/login"
+            element={
+              <LoginPage
+                setAuthenticated={setAuthenticated}
+                setLoggedInUsername={setLoggedInUsername}
+              />
+            }
+          />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/todo"
+            element={<Todo loggedInUsername={loggedInUsername} />}
+          />
+        </Routes>
+      </div>
+    </ThemeProvider>
   );
 }
 
