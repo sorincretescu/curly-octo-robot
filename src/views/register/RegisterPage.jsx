@@ -43,7 +43,7 @@ function RegisterPage() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [openModal, setOpenModal] = useState(true);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleUsername = (e) => {
     setUsername(e.target.value);
@@ -63,7 +63,7 @@ function RegisterPage() {
 
     try {
       await axios.post("http://localhost:5000/api/register", user);
-      setOpenModal(true);
+      setOpenDialog(true);
     }
     catch (error) {
       console.error("Error registering user:", error);
@@ -81,7 +81,7 @@ function RegisterPage() {
   const handleStay = () => {
     setUsername("");
     setPassword("");
-    setOpenModal(false);
+    setOpenDialog(false);
   };
 
 
@@ -116,7 +116,7 @@ function RegisterPage() {
       </div>
       <div>
         <Dialog
-          open={openModal}
+          open={openDialog}
           onClose={handleStay}
         >
           <DialogTitle >
