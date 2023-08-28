@@ -12,7 +12,7 @@ const SearchBar = (props) => {
   return (
     <div>
       <Input
-        label={t('search')}
+        label={t('Search')}
         {...props} />
     </div>
   );

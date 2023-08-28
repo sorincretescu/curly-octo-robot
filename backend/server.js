@@ -7,7 +7,7 @@ const {
   addTodo,
   updateTodo,
   deleteTodo,
-} = require("./logic");
+} = require("./logic/todoLogic");
 
 const {
   addUser
