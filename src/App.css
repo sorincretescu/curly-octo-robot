@@ -1,11 +1,42 @@
 .App {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: burlywood;
-    font-family: 'Roboto', sans-serif;
-    *::-webkit-scrollbar{
-        display: none;
-    }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  font-family: "Roboto", sans-serif;
+  *::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+#light {
+  background-color: burlywood;
+}
+
+#dark {
+  background-color: #353535;
+}
+
+#light .MuiTextField-root {
+  background: white;
+}
+
+#dark .MuiTextField-root {
+  background: #afafaf;
+}
+
+#dark .MuiInputBase-root {
+  background: #afafaf;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 575px;
+  font-family: "Roboto", sans-serif;
+  *::-webkit-scrollbar {
+    display: none;
+  }
 }
