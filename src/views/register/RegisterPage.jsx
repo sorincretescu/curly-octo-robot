@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import FormControl from "@material-ui/core/FormControl";
-import { MenuItem } from "@material-ui/core";
+import { MenuItem, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import Select from "@material-ui/core/Select";
 import Modal from "@material-ui/core/Modal";
@@ -32,6 +32,26 @@ const useStyles = makeStyles({
     height: "80px",
     marginLeft: "10px",
   },
+  modal: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "30%",
+    height: "30%",
+    left: "33% !important",
+    top: "40% !important",
+  },
+  modalDiv: {
+    backgroundColor: "white",
+    borderRadius: "10px",
+    boxShadow: "0 0 10px 0 rgba(0,0,0,0.5)",
+    width: "250px",
+    height: "150px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  }
 });
 
 function RegisterPage() {
@@ -41,7 +61,7 @@ function RegisterPage() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(true);
 
   const handleUsername = (e) => {
     setUsername(e.target.value);
@@ -112,17 +132,21 @@ function RegisterPage() {
 
         <Button text={t("Register")} onClick={handleRegister} />
       </div>
-      <Modal
-        open={openModal}
-        onClose={handleStay}
-        label={t("Registration")}
-      >
-        <div>
-          <p>{t("Do you want to login?")}</p>
-          <Button text={t("Yes")} onClick={handleLogin} />
-          <Button text={t("No")} onClick={handleStay} />
-        </div>
-      </Modal>
+      <div classname>
+        <Modal className={classes.modal}
+          open={openModal}
+          onClose={handleStay}
+        >
+          <div className={classes.modalDiv}>
+            <Typography>{t("Do you want to login?")}</Typography>
+            <br></br>
+            <div>
+              <Button text={t("Yes")} onClick={handleLogin} />
+              <Button text={t("No")} onClick={handleStay} />
+            </div>
+          </div>
+        </Modal>
+      </div>
     </div>
   );
 }
