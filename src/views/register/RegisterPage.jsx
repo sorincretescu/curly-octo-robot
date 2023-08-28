@@ -4,11 +4,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import FormControl from "@material-ui/core/FormControl";
-import { MenuItem, Typography } from "@material-ui/core";
+import { MenuItem } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import Select from "@material-ui/core/Select";
-import Modal from "@material-ui/core/Modal";
 import { useNavigate } from "react-router-dom";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 const useStyles = makeStyles({
   register: {
@@ -32,26 +34,6 @@ const useStyles = makeStyles({
     height: "80px",
     marginLeft: "10px",
   },
-  modal: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "30%",
-    height: "30%",
-    left: "33% !important",
-    top: "40% !important",
-  },
-  modalDiv: {
-    backgroundColor: "white",
-    borderRadius: "10px",
-    boxShadow: "0 0 10px 0 rgba(0,0,0,0.5)",
-    width: "250px",
-    height: "150px",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  }
 });
 
 function RegisterPage() {
@@ -132,20 +114,19 @@ function RegisterPage() {
 
         <Button text={t("Register")} onClick={handleRegister} />
       </div>
-      <div classname>
-        <Modal className={classes.modal}
+      <div>
+        <Dialog
           open={openModal}
           onClose={handleStay}
         >
-          <div className={classes.modalDiv}>
-            <Typography>{t("Do you want to login?")}</Typography>
-            <br></br>
-            <div>
-              <Button text={t("Yes")} onClick={handleLogin} />
-              <Button text={t("No")} onClick={handleStay} />
-            </div>
-          </div>
-        </Modal>
+          <DialogTitle >
+            {t("Do you want to login?")}
+          </DialogTitle>
+          <DialogActions>
+            <Button text={t("Yes")} onClick={handleLogin}></Button>
+            <Button text={t("No")} onClick={handleStay}></Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </div>
   );
