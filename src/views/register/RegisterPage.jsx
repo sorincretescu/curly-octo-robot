@@ -7,6 +7,8 @@ import FormControl from "@material-ui/core/FormControl";
 import { MenuItem } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import Select from "@material-ui/core/Select";
+import Modal from "@material-ui/core/Modal";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({
   register: {
@@ -35,9 +37,11 @@ const useStyles = makeStyles({
 function RegisterPage() {
   const classes = useStyles();
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [openModal, setOpenModal] = useState(false);
 
   const handleUsername = (e) => {
     setUsername(e.target.value);
@@ -57,6 +61,7 @@ function RegisterPage() {
 
     try {
       await axios.post("http://localhost:5000/api/register", user);
+      setOpenModal(true);
     }
     catch (error) {
       console.error("Error registering user:", error);
@@ -66,6 +71,17 @@ function RegisterPage() {
   const handleChangeLanguage = (e) => {
     i18n.changeLanguage(e.target.value);
   };
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
+  const handleStay = () => {
+    setUsername("");
+    setPassword("");
+    setOpenModal(false);
+  };
+
 
   return (
     <div className={classes.register}>
@@ -96,6 +112,17 @@ function RegisterPage() {
 
         <Button text={t("Register")} onClick={handleRegister} />
       </div>
+      <Modal
+        open={openModal}
+        onClose={handleStay}
+        label={t("Registration")}
+      >
+        <div>
+          <p>{t("Do you want to login?")}</p>
+          <Button text={t("Yes")} onClick={handleLogin} />
+          <Button text={t("No")} onClick={handleStay} />
+        </div>
+      </Modal>
     </div>
   );
 }
