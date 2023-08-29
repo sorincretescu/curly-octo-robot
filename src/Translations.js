@@ -29,6 +29,7 @@ export const translationsEn = {
   Yes: "Yes",
   No: "No",
   "Are you sure you want to log out?": "Are you sure you want to log out?",
+  "Do you want to login?": "Do you want to login?",
 };
 
 export const translationsDe = {
@@ -63,4 +64,5 @@ export const translationsDe = {
   No: "Nein",
   "Are you sure you want to log out?":
     "Sind Sie sicher, dass Sie sich abmelden möchten?",
+  "Do you want to login?": "Möchten Sie sich anmelden?",
 };

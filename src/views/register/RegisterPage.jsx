@@ -7,6 +7,10 @@ import FormControl from "@material-ui/core/FormControl";
 import { MenuItem } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import Select from "@material-ui/core/Select";
+import { useNavigate } from "react-router-dom";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 const useStyles = makeStyles({
   register: {
@@ -35,9 +39,11 @@ const useStyles = makeStyles({
 function RegisterPage() {
   const classes = useStyles();
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleUsername = (e) => {
     setUsername(e.target.value);
@@ -57,6 +63,7 @@ function RegisterPage() {
 
     try {
       await axios.post("http://localhost:5000/api/register", user);
+      setOpenDialog(true);
     }
     catch (error) {
       console.error("Error registering user:", error);
@@ -66,6 +73,17 @@ function RegisterPage() {
   const handleChangeLanguage = (e) => {
     i18n.changeLanguage(e.target.value);
   };
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
+  const handleStay = () => {
+    setUsername("");
+    setPassword("");
+    setOpenDialog(false);
+  };
+
 
   return (
     <div className={classes.register}>
@@ -95,6 +113,20 @@ function RegisterPage() {
         />
 
         <Button text={t("Register")} onClick={handleRegister} />
+      </div>
+      <div>
+        <Dialog
+          open={openDialog}
+          onClose={handleStay}
+        >
+          <DialogTitle >
+            {t("Do you want to login?")}
+          </DialogTitle>
+          <DialogActions>
+            <Button text={t("Yes")} onClick={handleLogin}></Button>
+            <Button text={t("No")} onClick={handleStay}></Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </div>
   );
