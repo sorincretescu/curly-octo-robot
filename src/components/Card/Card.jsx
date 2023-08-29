@@ -58,6 +58,12 @@ const useStyles = makeStyles({
     marginLeft: "8px",
     cursor: "pointer",
   },
+  actionsTile: {
+    marginTop: "18px",
+  },
+  test: {
+    width: "320px !important",
+  },
 });
 
 const Card = (props) => {
@@ -70,7 +76,8 @@ const Card = (props) => {
     handleEdit,
     subtasks,
     expanded,
-  } = props.item;
+    isChecked,
+  } = props;
   const classes = useStyles();
 
   const { t } = useTranslation();
@@ -86,69 +93,140 @@ const Card = (props) => {
 
   return (
     <>
-      <CardMUI className={classes.root}>
-        <CardContent className={classes.cardContent}>
-          <div className={classes.contentLeft}>
-            <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
-            >
-              {t("Priority")} <i>{priority ?? t("No priority")}</i>
-            </Typography>
-            <Typography variant="h5" component="h2">
-              {t("TODO")} #<i>{id ?? t("No id")}</i>
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              {description ?? t("No description")}
-            </Typography>
-            <Accordion expanded={isExpanded} onChange={handleExpand}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
+      {isChecked ? (
+        <CardMUI className={classes.root}>
+          <CardContent className={classes.cardContent}>
+            <div className={classes.contentLeft}>
+              <Typography
+                className={classes.title}
+                color="textSecondary"
+                gutterBottom
               >
-                <Typography className={classes.heading}>
-                  {t("Subtasks")}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                {subtasks?.length ? (
-                  <ul>
-                    {subtasks?.map((subtask, index) => (
-                      <li key={index}>{subtask}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>{t("No subtasks")}</p>
-                )}
-              </AccordionDetails>
-            </Accordion>
-          </div>
-          <div className={classes.contentRight}>
-            <Typography
-              className={classes.date}
-              color="textSecondary"
-              gutterBottom
-            >
-              {t("Creation date")}:{" "}
-              <i>{createdAt.split("T")[0] ?? t("No date")}</i>
-            </Typography>
-            <div className={classes.actions}>
-              <EditIcon
-                aria-label={t("Edit")}
-                className={classes.icon}
-                onClick={() => handleEdit(id)}
-              />
-              <DeleteForeverIcon
-                aria-label={t("Delete")}
-                className={classes.icon}
-                onClick={() => handleDelete(id)}
-              />
+                {t("Priority")} <i>{priority ?? t("No priority")}</i>
+              </Typography>
+              <Typography variant="h5" component="h2">
+                {t("TODO")} #<i>{id ?? t("No id")}</i>
+              </Typography>
+              <Typography className={classes.pos} color="textSecondary">
+                {description ?? t("No description")}
+              </Typography>
+
+              <Accordion expanded={isExpanded} onChange={handleExpand}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography className={classes.heading}>
+                    {t("Subtasks")}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {subtasks?.length ? (
+                    <ul>
+                      {subtasks?.map((subtask, index) => (
+                        <li key={index}>{subtask}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>{t("No subtasks")}</p>
+                  )}
+                </AccordionDetails>
+              </Accordion>
             </div>
-          </div>
-        </CardContent>
-      </CardMUI>
+            <div className={classes.contentRight}>
+              <Typography
+                className={classes.date}
+                color="textSecondary"
+                gutterBottom
+              >
+                {t("Creation date")}:{" "}
+                <i>{createdAt.split("T")[0] ?? t("No date")}</i>
+              </Typography>
+              <div className={classes.actions}>
+                <EditIcon
+                  aria-label={t("Edit")}
+                  className={classes.icon}
+                  onClick={() => handleEdit(id)}
+                />
+                <DeleteForeverIcon
+                  aria-label={t("Delete")}
+                  className={classes.icon}
+                  onClick={() => handleDelete(id)}
+                />
+              </div>
+            </div>
+          </CardContent>
+        </CardMUI>
+      ) : (
+        <CardMUI className={classes.root}>
+          <CardContent className={classes.cardContent}>
+            <div className={classes.contentLeft}>
+              <Typography
+                className={classes.title}
+                color="textSecondary"
+                gutterBottom
+              >
+                {t("Priority")} <i>{priority ?? t("No priority")}</i>
+              </Typography>
+              <Typography variant="h5" component="h2">
+                {t("TODO")} #<i>{id ?? t("No id")}</i>
+              </Typography>
+              <Typography className={classes.pos} color="textSecondary">
+                {description ?? t("No description")}
+              </Typography>
+              <Typography
+                style={{ fontSize: 14 }}
+                color="textSecondary"
+                gutterBottom
+              >
+                {t("Creation date")}:{" "}
+                <i>{createdAt.split("T")[0] ?? t("No date")}</i>
+              </Typography>
+
+              <Accordion
+                expanded={isExpanded}
+                onChange={handleExpand}
+                className={classes.test}
+              >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography className={classes.heading}>
+                    {t("Subtasks")}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {subtasks?.length ? (
+                    <ul>
+                      {subtasks?.map((subtask, index) => (
+                        <li key={index}>{subtask}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>{t("No subtasks")}</p>
+                  )}
+                </AccordionDetails>
+              </Accordion>
+
+              <div className={classes.actionsTile}>
+                <EditIcon
+                  aria-label={t("Edit")}
+                  className={classes.icon}
+                  onClick={() => handleEdit(id)}
+                />
+                <DeleteForeverIcon
+                  aria-label={t("Delete")}
+                  className={classes.icon}
+                  onClick={() => handleDelete(id)}
+                />
+              </div>
+            </div>
+          </CardContent>
+        </CardMUI>
+      )}
     </>
   );
 };

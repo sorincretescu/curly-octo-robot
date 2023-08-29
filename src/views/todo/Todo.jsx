@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Card from "../../components/Card";
+import GridView from "../../components/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -7,7 +8,9 @@ import Modal from "../../components/Modal";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import Header from "../../components/Header";
+import Switch from "@material-ui/core/Switch";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar";
 import { useTranslation } from "react-i18next";
@@ -66,6 +69,7 @@ const Todo = ({ loggedInUsername }) => {
   const [selectedPriority, setSelectedPriority] = useState("");
   const [filteredTodos, setFilteredTodos] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     axios
@@ -276,20 +280,47 @@ const Todo = ({ loggedInUsername }) => {
           </FormControl>
           <Button onClick={handleSortReset} text={t("Reset")} />
         </div>
-      </div>
-      <div className={classes.cardsContainer}>
-        {todos.map((todo, index) => (
-          <Card
-            key={index}
-            item={{
-              ...todo,
-              id: index,
-              handleEdit: handleEditTodo,
-              handleDelete: handleDeleteTodo,
-            }}
+
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                color="primary"
+                checked={checked}
+                onChange={() => {
+                  setChecked((prev) => !prev);
+                }}
+              />
+            }
+            label={checked ? t("List view") : t("Tile view")}
           />
-        ))}
+        </FormGroup>
       </div>
+
+      <div className={classes.cardsContainer}>
+        {checked ? (
+          todos.map((todo, index) => (
+            <Card
+              key={index}
+              priority={todo.priority}
+              isChecked={checked}
+              createdAt={todo.createdAt}
+              description={todo.description}
+              id={index}
+              handleEdit={handleEditTodo}
+              handleDelete={handleDeleteTodo}
+              subtasks={todo.subtasks}
+            />
+          ))
+        ) : (
+          <GridView
+            todos={todos}
+            // handleEdit={handleEditTodo}
+            // handleDelete={handleDeleteTodo}
+          />
+        )}
+      </div>
+
       <Modal
         _id={todos[currentTodo]?._id ?? null}
         todoDescription={todos[currentTodo]?.description ?? ""}
