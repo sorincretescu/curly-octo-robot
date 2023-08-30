@@ -61,7 +61,7 @@ const useStyles = makeStyles({
   actionsTile: {
     marginTop: "18px",
   },
-  test: {
+  subtasksWidth: {
     width: "320px !important",
   },
 });
@@ -187,7 +187,7 @@ const Card = (props) => {
               <Accordion
                 expanded={isExpanded}
                 onChange={handleExpand}
-                className={classes.test}
+                className={classes.subtasksWidth}
               >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
