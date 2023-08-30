@@ -315,8 +315,8 @@ const Todo = ({ loggedInUsername }) => {
         ) : (
           <GridView
             todos={todos}
-            // handleEdit={handleEditTodo}
-            // handleDelete={handleDeleteTodo}
+            handleEdit={handleEditTodo}
+            handleDelete={handleDeleteTodo}
           />
         )}
       </div>

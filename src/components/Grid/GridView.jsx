@@ -42,7 +42,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const GridView = ({ todos, handleEditTodo, handleDeleteTodo }) => {
+const GridView = (props) => {
+  const { handleDelete, handleEdit, todos } = props;
   const classes = useStyles();
 
   return (
@@ -56,8 +57,8 @@ const GridView = ({ todos, handleEditTodo, handleDeleteTodo }) => {
               createdAt={todo.createdAt}
               description={todo.description}
               id={index}
-              // handleEdit={todos.handleEditTodo}
-              // handleDelete={todos.handleDeleteTodo}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
               subtasks={todo.subtasks}
             />
           ))}
