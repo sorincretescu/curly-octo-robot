@@ -48,6 +48,7 @@ app.post("/api/login", async (req, res) => {
     const { username, password } = req.body;
     const usersCollection = mongoose.connection.collection("users");
     const user = await usersCollection.findOne({ username });
+
     if (user && user.password === password) {
       const loggedInUsername = user.username;
       const todos = await getDataFromDatabase(loggedInUsername);
@@ -55,6 +56,7 @@ app.post("/api/login", async (req, res) => {
         success: true,
         message: "Login successful",
         username: user.username,
+        todos: todos,
       });
     } else {
       res.status(401).json({ success: false, message: "Invalid credentials" });
@@ -64,6 +66,30 @@ app.post("/api/login", async (req, res) => {
     res.status(500).json({ success: false, message: "Error during login" });
   }
 });
+
+app.get("/api/users/:username", async (req, res) => {
+  try {
+    const username = req.params.username;
+    const user = await usersCollection.findOne({ username });
+
+    if (user) {
+      const loggedInUsername = user.username;
+      const todos = await getDataFromDatabase(loggedInUsername);
+      res.json({
+        success: true,
+        message: "User data retrieved successfully",
+        username: user.username,
+        todos: todos,
+      });
+    } else {
+      res.status(404).json({ success: false, message: "User not found" });
+    }
+  } catch (error) {
+    console.error("Error retrieving user data:", error);
+    res.status(500).json({ success: false, message: "Error retrieving user data" });
+  }
+});
+
 
 app.get("/api/todos", async (req, res) => {
   try {
