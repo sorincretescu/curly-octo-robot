@@ -12,6 +12,7 @@ const {
 const {
   addUser
 } = require("./logic/userLogic");
+
 const { restart } = require("nodemon");
 
 const app = express();
@@ -50,14 +51,11 @@ app.post("/api/login", async (req, res) => {
     const user = await usersCollection.findOne({ username });
 
     if (user && user.password === password) {
-      const loggedInUsername = user.username;
-      const todos = await getDataFromDatabase(loggedInUsername);
       res.json({
         success: true,
         message: "Login successful",
         username: user.username,
-        todos: todos,
-      });
+      })
     } else {
       res.status(401).json({ success: false, message: "Invalid credentials" });
     }
@@ -67,34 +65,58 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.get("/api/users/:username", async (req, res) => {
-  try {
-    const username = req.params.username;
-    const user = await usersCollection.findOne({ username });
+app.get("/api/userdata", async (req, res) => {
+  const user = req.query;
+  const username = user.username;
+  const todos = await getDataFromDatabase(username);
+  res.json({
+    success: true,
+    message: "User data fetched successfully",
+    username: username,
+    todos: todos,
+  });
+})
 
-    if (user) {
-      const loggedInUsername = user.username;
-      const todos = await getDataFromDatabase(loggedInUsername);
-      res.json({
-        success: true,
-        message: "User data retrieved successfully",
-        username: user.username,
-        todos: todos,
-      });
-    } else {
-      res.status(404).json({ success: false, message: "User not found" });
+app.post('/api/todos', async (req, res) => {
+  try {
+    const { priority, description, subtasks } = req.body;
+    const user_id = req.header;
+    const usersCollection = mongoose.connection.collection("users");
+    const user = await usersCollection.findOne({ user_id });
+
+    if (!user_id) {
+      return res.status(401).json({ success: false, message: 'Unauthorized' });
     }
+
+    const newTodo = {
+      priority: priority,
+      description: description,
+      subtasks: subtasks || [],
+      user_id: user._id,
+    };
+
+    await addTodo(newTodo);
+
+    user.todos.push(newTodo._id)
+    async () => { await user.save() };
+
+    res.status(201).json({
+      success: true,
+      message: 'Todo created successfully',
+      todo: newTodo,
+      user: user,
+    });
+
+    console.log("user", user);
+    console.log("newTodo", newTodo);
   } catch (error) {
-    console.error("Error retrieving user data:", error);
-    res.status(500).json({ success: false, message: "Error retrieving user data" });
+    console.error('Error creating todo:', error);
+    res.status(500).json({ success: false, message: 'Error creating todo' });
   }
 });
-
-
 app.get("/api/todos", async (req, res) => {
   try {
-    const { username } = req.query;
-    const todos = await getDataFromDatabase(username);
+    const todos = await getDataFromDatabase();
 
     res.json(todos);
   } catch (error) {
