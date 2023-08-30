@@ -1,5 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const session = require("express-session");
+const MongoDbStore = require("connect-mongodb-session")(session);
 const cors = require("cors");
 require("dotenv").config();
 const {
@@ -27,6 +29,23 @@ const mongooseOptions = {
   useUnifiedTopology: true,
 };
 
+const store = new MongoDbStore({
+  uri: uri,
+  collection: "sessions",
+});
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24,
+    },
+  })
+);
+
 (async () => {
   try {
     await mongoose.connect(uri, mongooseOptions);
@@ -44,6 +63,14 @@ const mongooseOptions = {
   }
 })();
 
+function auth(req, res, next) {
+  if (req.session && req.session.user) {
+    return next();
+  } else {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+}
+
 app.post("/api/login", async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -51,6 +78,7 @@ app.post("/api/login", async (req, res) => {
     const user = await usersCollection.findOne({ username });
 
     if (user && user.password === password) {
+      req.session.user = user;
       res.json({
         success: true,
         message: "Login successful",
@@ -77,16 +105,10 @@ app.get("/api/userdata", async (req, res) => {
   });
 })
 
-app.post('/api/todos', async (req, res) => {
+app.post("/api/todos", auth, async (req, res) => {
   try {
     const { priority, description, subtasks } = req.body;
-    const user_id = req.header;
-    const usersCollection = mongoose.connection.collection("users");
-    const user = await usersCollection.findOne({ user_id });
-
-    if (!user_id) {
-      return res.status(401).json({ success: false, message: 'Unauthorized' });
-    }
+    const user = req.session.user;
 
     const newTodo = {
       priority: priority,
@@ -96,24 +118,26 @@ app.post('/api/todos', async (req, res) => {
     };
 
     await addTodo(newTodo);
-
-    user.todos.push(newTodo._id)
-    async () => { await user.save() };
+    user.todos.push(newTodo._id);
+    console.log("user", user);
+    async () => {
+      user.save();
+    }
+    console.log("user save", typeof user);
 
     res.status(201).json({
       success: true,
-      message: 'Todo created successfully',
-      todo: newTodo,
-      user: user,
+      message: "Todo added successfully",
+      todo: newTodo
     });
-
-    console.log("user", user);
-    console.log("newTodo", newTodo);
   } catch (error) {
-    console.error('Error creating todo:', error);
-    res.status(500).json({ success: false, message: 'Error creating todo' });
+    console.error("Error handling POST request", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
+
 });
+
+
 app.get("/api/todos", async (req, res) => {
   try {
     const todos = await getDataFromDatabase();
@@ -149,24 +173,24 @@ app.delete("/api/todos/:id", async (req, res) => {
   }
 });
 
-app.post("/api/todos", async (req, res) => {
-  try {
-    const { priority, description, subtasks } = req.body;
+// app.post("/api/todos", async (req, res) => {
+//   try {
+//     const { priority, description, subtasks } = req.body;
 
-    const newTodoData = {
-      priority: priority,
-      description: description,
-      subtasks: subtasks || [],
-    };
+//     const newTodoData = {
+//       priority: priority,
+//       description: description,
+//       subtasks: subtasks || [],
+//     };
 
-    await addTodo(newTodoData);
+//     await addTodo(newTodoData);
 
-    res.json({ message: "Todo added successfully" });
-  } catch (error) {
-    console.error("Error handling POST request", error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
+//     res.json({ message: "Todo added successfully" });
+//   } catch (error) {
+//     console.error("Error handling POST request", error);
+//     res.status(500).json({ message: "Internal Server Error" });
+//   }
+// });
 
 app.post("/api/register", async (req, res) => {
   try {

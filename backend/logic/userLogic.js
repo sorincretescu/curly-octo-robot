@@ -13,7 +13,9 @@ const addUser = async (userData) => {
         console.error("Error registering the user to the database", error);
         throw error;
     }
-}
+};
+
+
 
 
 module.exports = { addUser };
