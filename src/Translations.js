@@ -30,6 +30,8 @@ export const translationsEn = {
   No: "No",
   "Are you sure you want to log out?": "Are you sure you want to log out?",
   "Do you want to login?": "Do you want to login?",
+  "List view": "List view",
+  "Tile view": "Tile view",
 };
 
 export const translationsDe = {
@@ -65,4 +67,6 @@ export const translationsDe = {
   "Are you sure you want to log out?":
     "Sind Sie sicher, dass Sie sich abmelden möchten?",
   "Do you want to login?": "Möchten Sie sich anmelden?",
+  "List view": "Listenansicht",
+  "Tile view": "Kachelansicht",
 };
