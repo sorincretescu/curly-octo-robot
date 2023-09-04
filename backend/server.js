@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const bcrypt = require("bcrypt");
+
 require("dotenv").config();
 const {
   getDataFromDatabase,
@@ -9,9 +11,7 @@ const {
   deleteTodo,
 } = require("./logic/todoLogic");
 
-const {
-  addUser
-} = require("./logic/userLogic");
+const { addUser } = require("./logic/userLogic");
 const { restart } = require("nodemon");
 
 const app = express();
@@ -48,16 +48,23 @@ app.post("/api/login", async (req, res) => {
     const { username, password } = req.body;
     const usersCollection = mongoose.connection.collection("users");
     const user = await usersCollection.findOne({ username });
-    if (user && user.password === password) {
-      const loggedInUsername = user.username;
-      const todos = await getDataFromDatabase(loggedInUsername);
-      res.json({
-        success: true,
-        message: "Login successful",
-        username: user.username,
-      });
-    } else {
-      res.status(401).json({ success: false, message: "Invalid credentials" });
+
+    if (user) {
+      const passwordMatch = await bcrypt.compare(password, user.password);
+
+      if (passwordMatch) {
+        const loggedInUsername = user.username;
+        const todos = await getDataFromDatabase(loggedInUsername);
+        res.json({
+          success: true,
+          message: "Login successful",
+          username: loggedInUsername,
+        });
+      } else {
+        res
+          .status(401)
+          .json({ success: false, message: "Invalid credentials" });
+      }
     }
   } catch (error) {
     console.error("Error during login:", error);
@@ -125,16 +132,23 @@ app.post("/api/register", async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-      return res.status(400).json({ message: "Username and password are required." });
-    };
+      return res
+        .status(400)
+        .json({ message: "Username and password are required." });
+    }
 
     if (username.length < 4 || password.length < 4) {
-      return res.status(400).json({ message: "Username and password need to be at least 4 characters long." });
-    };
+      return res.status(400).json({
+        message: "Username and password need to be at least 4 characters long.",
+      });
+    }
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const newUserData = {
       username: username,
-      password: password,
+      password: hashedPassword,
     };
 
     await addUser(newUserData);
