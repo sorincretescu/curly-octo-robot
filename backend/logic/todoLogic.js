@@ -4,8 +4,19 @@ const Todo = mongoose.model("Todo", todoSchema);
 
 const getDataFromDatabase = async (username) => {
   try {
-    const data = await Todo.find({ username });
+    const data = await Todo.findOne({ username });
     return data ?? [];
+  } catch (error) {
+    console.log("Error fetching data from the database", error);
+    throw error;
+  }
+};
+
+const getTodoId = async () => {
+  try {
+    const data = await Todo.findOne({});
+    const todoId = data._id;
+    return todoId;
   } catch (error) {
     console.log("Error fetching data from the database", error);
     throw error;
@@ -18,7 +29,6 @@ const addTodo = async (todoData) => {
       priority: todoData.priority,
       description: todoData.description,
       subtasks: todoData.subtasks || [],
-      user_id: todoData.user,
     });
 
     await newTodo.save();
@@ -52,4 +62,4 @@ const deleteTodo = async (id, todo) => {
   }
 };
 
-module.exports = { getDataFromDatabase, updateTodo, deleteTodo, addTodo };
+module.exports = { getDataFromDatabase, updateTodo, deleteTodo, addTodo, getTodoId };

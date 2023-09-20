@@ -15,7 +15,18 @@ const addUser = async (userData) => {
     }
 };
 
+const getUserById = async (id) => {
+    try {
+        const user = await User.findById(id);
+        if (!user) {
+            throw new Error("User not found");
+        };
+        return user;
+    } catch (error) {
+        console.error("Error getting user by id", error);
+        throw error;
+    }
+};
 
 
-
-module.exports = { addUser };
+module.exports = { addUser, getUserById };

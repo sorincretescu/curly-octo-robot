@@ -9,11 +9,15 @@ const {
   addTodo,
   updateTodo,
   deleteTodo,
+  getTodoId
 } = require("./logic/todoLogic");
 
 const {
-  addUser
+  addUser,
+  getUserById,
 } = require("./logic/userLogic");
+
+
 
 const { restart } = require("nodemon");
 
@@ -105,36 +109,33 @@ app.get("/api/userdata", async (req, res) => {
   });
 })
 
-app.post("/api/todos", auth, async (req, res) => {
+app.post("/api/todos", async (req, res) => {
   try {
     const { priority, description, subtasks } = req.body;
-    const user = req.session.user;
-
+    const userId = req.session.user._id;
     const newTodo = {
       priority: priority,
       description: description,
       subtasks: subtasks || [],
-      user_id: user._id,
     };
 
     await addTodo(newTodo);
-    user.todos.push(newTodo._id);
-    console.log("user", user);
-    async () => {
-      user.save();
-    }
-    console.log("user save", typeof user);
+
+    const user = await getUserById(userId);
+    const neededTodoId = await getTodoId(newTodo);
+    user.todos.push(neededTodoId);
+    user.markModified("todos");
+    await user.save();
 
     res.status(201).json({
       success: true,
       message: "Todo added successfully",
-      todo: newTodo
+
     });
   } catch (error) {
     console.error("Error handling POST request", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
-
 });
 
 
@@ -173,24 +174,6 @@ app.delete("/api/todos/:id", async (req, res) => {
   }
 });
 
-// app.post("/api/todos", async (req, res) => {
-//   try {
-//     const { priority, description, subtasks } = req.body;
-
-//     const newTodoData = {
-//       priority: priority,
-//       description: description,
-//       subtasks: subtasks || [],
-//     };
-
-//     await addTodo(newTodoData);
-
-//     res.json({ message: "Todo added successfully" });
-//   } catch (error) {
-//     console.error("Error handling POST request", error);
-//     res.status(500).json({ message: "Internal Server Error" });
-//   }
-// });
 
 app.post("/api/register", async (req, res) => {
   try {
