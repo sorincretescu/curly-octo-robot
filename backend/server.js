@@ -122,6 +122,7 @@ app.post("/api/todos", async (req, res) => {
     await addTodo(newTodo);
 
     const user = await getUserById(userId);
+    console.log(user);
     const neededTodoId = await getTodoId(newTodo);
     user.todos.push(neededTodoId);
     user.markModified("todos");
@@ -141,7 +142,10 @@ app.post("/api/todos", async (req, res) => {
 
 app.get("/api/todos", async (req, res) => {
   try {
-    const todos = await getDataFromDatabase();
+    const loggedUser = req.session.user.username;
+    console.log("user", loggedUser);
+    const todos = await getDataFromDatabase(loggedUser);
+    console.log("todos", todos);
 
     res.json(todos);
   } catch (error) {

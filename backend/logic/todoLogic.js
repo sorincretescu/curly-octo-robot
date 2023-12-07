@@ -4,7 +4,7 @@ const Todo = mongoose.model("Todo", todoSchema);
 
 const getDataFromDatabase = async (username) => {
   try {
-    const data = await Todo.findOne({ username });
+    const data = await Todo.find({ username });
     return data ?? [];
   } catch (error) {
     console.log("Error fetching data from the database", error);

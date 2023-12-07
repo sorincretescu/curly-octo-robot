@@ -65,7 +65,7 @@ function LoginPage({ setAuthenticated, setLoggedInUsername }) {
       if (data.success) {
         setAuthenticated(true);
         setLoggedInUsername(data.username);
-        navigate("/todo");
+        navigate("/todo", { state: { loggedInUsername: data.username } });
       } else {
         setErrorCredentials("Invalid credentials");
       }
